@@ -6,6 +6,8 @@
   "repository": "",
   "author": "Jérémie Metter-Rothan",
   "license": "MIT",
-  "dependencies": { },
-  "devDependencies": { }
+  "dependencies": {
+    "uniqid": "^5.0.3"
+  },
+  "devDependencies": {}
 }
