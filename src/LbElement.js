@@ -1,15 +1,112 @@
 import uniqid from 'uniqid';
 
-class LbElement {
-    constructor(data) {
-        this.data = data;
+export default class LbElement {
+    constructor(lightbox, typeName) {
+        this.lightbox = lightbox;
+        this.typeName = typeName;
+
         this.key = uniqid();
         this.loaded = false;
+        this.loading = false;
+
+        this.$root =  null;
     }
 
-    load() {
-        this.loaded = true;
+    init() {
+        this.$root = document.createElement('div');
+        this.$root.classList.add('lightbox__element', 'element', `element_${this.typeName}`);
+
+        this.lightbox.$container.appendChild(this.$root);
+    }
+
+    replaceContent($node) {
+        this.$root.innerHTML = '';
+        this.$root.appendChild($node);
+    }
+
+    showError(message) {
+        const $errorMessage = document.createElement('div');
+        const $h4 = document.createElement('h4');
+        const $p = document.createElement('p');
+        const $btn = document.createElement('button');
+
+        $errorMessage.classList.add('message', 'message_error');
+        $h4.textContent = 'Something went wrong !';
+        $p.innerHTML = `${message}`;
+        $btn.textContent = 'close';
+        $btn.classList.add('btn', 'btn_close');
+
+        $btn.addEventListener('click', () => {
+            this.lightbox.close();
+        });
+
+        $errorMessage.appendChild($h4);
+        $errorMessage.appendChild($p);
+        $errorMessage.appendChild($btn);
+
+        this.replaceContent($errorMessage);
+    }
+
+    show() {
+        this.$root.classList.add('active');
+    }
+
+    hide() {
+        this.$root.classList.remove('active');
     }
 }
 
-export default LbElement;
+export class LbImageElement extends LbElement {
+    constructor(lightbox, { src, legend, alt, width = -1, height = -1}) {
+        super(lightbox, 'image');
+
+        this.src = src;
+        this.alt = alt;
+        this.legend = legend;
+        this.width = parseInt(width, 10);
+        this.height = parseInt(height, 10);
+    }
+
+    load() {    
+        this.loading = true;
+
+        const image = new Image();
+
+        new Promise((resolve, reject) => {
+            // loading message
+            const $loadingMessage = document.createElement('div');
+            const $p = document.createElement('p');
+    
+            $loadingMessage.classList.add('message', 'message_loading');
+            $p.textContent = 'Loading...';
+            $loadingMessage.appendChild($p);
+    
+            this.replaceContent($loadingMessage);
+
+            // image setup
+            if (this.width != -1) image.width = this.width;
+            if (this.height != -1) image.height = this.height;
+            if (this.alt) image.alt = this.alt;
+
+            image.onload = () => resolve();
+            image.onerror = () => reject(new Error('Could not find image...'));
+            image.onabort = () => reject(new Error('Image loading was aborted'));
+
+            image.src = this.src;
+        }).then(() => {
+            this.replaceContent(image);
+        }).catch((e) => {
+            this.showError(e.message);
+        }).finally(() => {       
+            this.loading = false;
+            this.loaded = true;
+        });
+    }
+}
+
+export const createElement = (lightbox, data) => {
+    switch(data.type) {
+    case 'image':
+        return new LbImageElement(lightbox, data);
+    }
+};
