@@ -6,8 +6,18 @@
   "repository": "",
   "author": "Jérémie Metter-Rothan",
   "license": "MIT",
+  "sasslintConfig": ".sass-lint.yml",
   "dependencies": {
+    "object-assign-deep": "^0.4.0",
     "uniqid": "^5.0.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint-config-google": "^0.10.0",
+    "stylelint": "^9.5.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.3.0"
+  },
+  "scripts": {
+    "stylelint": "stylelint '**/*.scss'; exit 0"
+  }
 }
