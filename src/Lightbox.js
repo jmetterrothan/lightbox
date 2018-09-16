@@ -1,22 +1,17 @@
 import uniqid from 'uniqid';
+import objectAssignDeep  from 'object-assign-deep';
 
-class LbElement {
-    constructor(data) {
-        this.data = data;
-        this.key = uniqid();
-        this.loaded = false;
-    }
-
-    load() {
-        this.loaded = true;
-    }
-}
+import LbElement from './LbElement';
+import LbException from './LbException';
 
 class Lightbox {
-    constructor() {
+    constructor(options = {}) {
+        this.options = objectAssignDeep.noMutate(Lightbox.DEFAULT_CONFIG, options);
+
         this.elements = [];
         this.count = 0;
         this.active = false;
+        
     }
 
     init() {
@@ -96,6 +91,10 @@ class Lightbox {
     keyExists(key) {
         return !this.elements.reduce((bool, curr) => bool && curr.key !== key, true);
     }
+}
+
+Lightbox.DEFAULT_CONFIG = {
+    uid: uniqid(),
 };
 
 export default Lightbox;
