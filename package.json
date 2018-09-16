@@ -6,7 +6,7 @@
   "repository": "",
   "author": "Jérémie Metter-Rothan",
   "license": "MIT",
-  "sasslintConfig": ".sass-lint.yml",
+  "keywords": [ "lightbox", "gallery" ],
   "dependencies": {
     "object-assign-deep": "^0.4.0",
     "uniqid": "^5.0.3"
