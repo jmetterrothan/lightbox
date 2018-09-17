@@ -1,5 +1,7 @@
 'use strict';
 
+import "babel-polyfill";
+import "./classList.polyfill.js";
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
