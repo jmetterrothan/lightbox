@@ -29,21 +29,13 @@ export default class LbElement {
         const $errorMessage = document.createElement('div');
         const $h4 = document.createElement('h4');
         const $p = document.createElement('p');
-        const $btn = document.createElement('button');
 
         $errorMessage.classList.add('message', 'message_error');
         $h4.textContent = 'Something went wrong !';
         $p.innerHTML = `${message}`;
-        $btn.textContent = 'close';
-        $btn.classList.add('btn', 'btn_close');
-
-        $btn.addEventListener('click', () => {
-            this.lightbox.close();
-        });
 
         $errorMessage.appendChild($h4);
         $errorMessage.appendChild($p);
-        $errorMessage.appendChild($btn);
 
         this.replaceContent($errorMessage);
     }
@@ -60,13 +52,12 @@ export default class LbElement {
 }
 
 export class LbImageElement extends LbElement {
-    constructor(lightbox, { src, thumbnail, legend, alt, width = -1, height = -1}) {
+    constructor(lightbox, { src, thumbnail, alt, width = -1, height = -1}) {
         super(lightbox, 'image');
 
         this.src = src;
         this.thumbnail = thumbnail;
         this.alt = alt;
-        this.legend = legend;
         this.width = parseInt(width, 10);
         this.height = parseInt(height, 10);
     }
@@ -82,7 +73,7 @@ export class LbImageElement extends LbElement {
             const $p = document.createElement('p');
     
             $loadingMessage.classList.add('message', 'message_loading');
-            $p.textContent = 'Loading...';
+            $p.innerHTML = 'Loading... <span class="message_progress">0%</span>';
             $loadingMessage.appendChild($p);
     
             this.replaceContent($loadingMessage);
