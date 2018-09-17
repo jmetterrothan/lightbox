@@ -1,16 +1,18 @@
 'use strict';
 
 import "babel-polyfill";
-import "./classList.polyfill.min.js";
+import "./Utility/classList.polyfill.min";
 
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
-import LbElement, { createElement } from './LbElement';
-import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUiBtn';
+import LbElement from './LbElement/LbElement';
+import LbImageElement from './LbElement/LbImageElement';
+import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUi/LbUiBtn';
+import LbBulletlist from './LbUi/LbUiBulletlist';
 import LbException from './LbException';
 
-import utility from './utility';
+import utility from './Utility/index';
 
 class Lightbox {
     constructor(options = {}) {
@@ -21,6 +23,7 @@ class Lightbox {
         this.count = 0;
         this.active = false;
         this.currentIndex = -1;
+        this.previousIndex = -1;
         
         this.$parent = null;
         this.$root = null;
@@ -28,12 +31,20 @@ class Lightbox {
         this.$ui = null;
 
 
+        this.uiBulletlist = new LbBulletlist(this);
         this.$uiThumbnails = null;
         this.uiThumbnailsContainer = null;
 
-        this.closeBtn = new LbCloseBtn(this);
-        this.prevBtn = new LbPrevBtn(this);
-        this.nextBtn = new LbNextBtn(this);
+        this.uiCloseBtn = new LbCloseBtn(this);
+        this.uiPrevBtn = new LbPrevBtn(this);
+        this.uiNextBtn = new LbNextBtn(this);
+    }
+
+    static createElement(lightbox, data) {
+        switch(data.type) {
+        case 'image':
+            return new LbImageElement(lightbox, data);
+        }
     }
 
     init() {
@@ -57,6 +68,7 @@ class Lightbox {
 
         this.$uiThumbnails = document.createElement('div');
         this.$uiThumbnails.classList.add('ui-thumbnails');
+        // this.$ui.appendChild(this.$uiThumbnails);
 
         this.$root.addEventListener('click', (e) => {
             if (e.target === this.$root && this.options.closeOnBlur) {
@@ -96,19 +108,24 @@ class Lightbox {
             }
         });
 
-        this.closeBtn.init();
+        this.uiCloseBtn.init();
         if (!this.options.enableCloseBtn) {
-            this.closeBtn.hide();
+            this.uiCloseBtn.hide();
         }
 
-        this.prevBtn.init();
+        this.uiPrevBtn.init();
         if (!this.options.enableNavigationBtn) {
-            this.prevBtn.hide();
+            this.uiPrevBtn.hide();
         }
-        
-        this.nextBtn.init();
+
+        this.uiNextBtn.init();
         if (!this.options.enableNavigationBtn) {
-            this.nextBtn.hide();
+            this.uiNextBtn.hide();
+        }
+
+        this.uiBulletlist.init();
+        if (!this.options.enableBullelist) {
+            this.uiBulletlist.hide();
         }
 
         this.$parent.appendChild(this.$root);
@@ -130,7 +147,7 @@ class Lightbox {
     }
 
     _addElement(data) {
-        const element = createElement(this, data);
+        const element = Lightbox.createElement(this, data);
         element.init();
 
         if (data.preload === true) {
@@ -149,6 +166,8 @@ class Lightbox {
                 this.open();
             });
         }
+
+        this.uiBulletlist.add(element);
 
         this.elements.push(element);
         this.count = this.elements.length;
@@ -201,6 +220,22 @@ class Lightbox {
 
         if (this.options.disableScroll) {
             utility.disableScroll();
+        }
+    }
+
+    hideUI() {
+        this.$ui.classList.add('hidden');
+    }
+
+    showUI() {
+        this.$ui.classList.remove('hidden');
+    }
+
+    toggleUI() {
+        if (this.$ui.classList.contains('hidden')) {
+            this.showUI();
+        } else {
+            this.hideUI();
         }
     }
 
@@ -265,7 +300,11 @@ class Lightbox {
         }
         
         element.show();
+
+        this.previousIndex = this.currentIndex;
         this.currentIndex = index;
+
+        this.uiBulletlist.update();
     }
 
     prev() {
@@ -319,6 +358,7 @@ Lightbox.DEFAULT_CONFIG = {
     arrowKeyNavigation: true,
     enableCloseBtn: true,
     enableNavigationBtn: true,
+    enableBullelist: true,
 };
 
 export default Lightbox;

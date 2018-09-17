@@ -1,4 +1,3 @@
-
 const keys = {37: false, 38: false, 39: true, 40: true};
 
 const preventDefault = (e) => {

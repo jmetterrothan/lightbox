@@ -18,6 +18,8 @@
             display: block;
             max-width: calc(100vw - 64px * 2 - 17px);
             max-height: calc(100vh - 64px * 2);
+            width: auto;
+            height: auto;
             object-fit: cover;
             object-position: center;
         }
