@@ -6,6 +6,7 @@ export default class LbElement {
         this.typeName = typeName;
 
         this.key = uniqid();
+        this.active = false;
         this.loaded = false;
         this.loading = false;
 
@@ -49,18 +50,21 @@ export default class LbElement {
 
     show() {
         this.$root.classList.add('active');
+        this.active = true;
     }
 
     hide() {
         this.$root.classList.remove('active');
+        this.active = false;
     }
 }
 
 export class LbImageElement extends LbElement {
-    constructor(lightbox, { src, legend, alt, width = -1, height = -1}) {
+    constructor(lightbox, { src, thumbnail, legend, alt, width = -1, height = -1}) {
         super(lightbox, 'image');
 
         this.src = src;
+        this.thumbnail = thumbnail;
         this.alt = alt;
         this.legend = legend;
         this.width = parseInt(width, 10);

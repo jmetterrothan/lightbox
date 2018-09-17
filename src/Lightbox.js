@@ -2,6 +2,7 @@
 
 import "babel-polyfill";
 import "./classList.polyfill.js";
+
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
@@ -13,13 +14,18 @@ class Lightbox {
         this.options = objectAssignDeep.noMutate(Lightbox.DEFAULT_CONFIG, options);
 
         this.elements = [];
+        this.thumbnails = [];
         this.count = 0;
         this.active = false;
-        this.currentIndex = 0;
+        this.currentIndex = -1;
         
         this.$root = null;
         this.$container = null;
         this.$ui = null;
+
+
+        this.$uiThumbnails = null;
+        this.uiThumbnailsContainer = null;
     }
 
     init() {
@@ -33,10 +39,13 @@ class Lightbox {
 
         this.$ui = document.createElement('div');
         this.$ui.classList.add('lightbox__ui');
-        this.$root.appendChild(this.$ui);
+        this.$container.appendChild(this.$ui);
 
-        this.$container.addEventListener('click', (e) => {
-            if ((e.target === this.$container || e.target.classList.contains('lightbox__element')) &&  this.options.closeOnBlur) {
+        this.$uiThumbnails = document.createElement('div');
+        this.$uiThumbnails.classList.add('ui-thumbnails');
+
+        this.$root.addEventListener('click', (e) => {
+            if (e.target === this.$root && this.options.closeOnBlur) {
                 e.preventDefault();
                 e.stopPropagation();
 
@@ -66,9 +75,6 @@ class Lightbox {
                         this.next();
                     }
                     break;
-
-                default:
-                    // console.log(e.keyCode);
                 }
             }
         });
@@ -101,6 +107,7 @@ class Lightbox {
             data.trigger = document.querySelector(data.trigger);
         }
 
+        // listeners
         if (data.trigger instanceof Element) {
             data.trigger.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -154,6 +161,11 @@ class Lightbox {
     close() {
         this.active = false;
         this.$root.classList.remove('active');
+
+        if (this.currentIndex !== -1) {
+            this.elements[this.currentIndex].hide();
+            this.currentIndex = -1;
+        }
     }
 
     toggle() {
@@ -181,6 +193,11 @@ class Lightbox {
     show (j) {
         // we got the index, now we can get the correct element
         const index = this.getIndex(j);
+
+        if (this.currentIndex === index) {
+            return;
+        }
+
         const previousElement = this.elements[this.currentIndex];
         const element = this.elements[index];
 
