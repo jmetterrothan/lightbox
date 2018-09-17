@@ -8,7 +8,15 @@
   "license": "MIT",
   "keywords": [
     "lightbox",
-    "gallery"
+    "gallery",
+    "images",
+    "videos",
+    "maps",
+    "modal",
+    "popin",
+    "javascript",
+    "sass",
+    "responsive"
   ],
   "dependencies": {
     "babel-polyfill": "^6.26.0",
