@@ -1,13 +1,16 @@
 'use strict';
 
 import "babel-polyfill";
-import "./classList.polyfill.js";
+import "./classList.polyfill.min.js";
 
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
 import LbElement, { createElement } from './LbElement';
+import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUiBtn';
 import LbException from './LbException';
+
+import utility from './utility';
 
 class Lightbox {
     constructor(options = {}) {
@@ -19,6 +22,7 @@ class Lightbox {
         this.active = false;
         this.currentIndex = -1;
         
+        this.$parent = null;
         this.$root = null;
         this.$container = null;
         this.$ui = null;
@@ -26,9 +30,19 @@ class Lightbox {
 
         this.$uiThumbnails = null;
         this.uiThumbnailsContainer = null;
+
+        this.closeBtn = new LbCloseBtn(this);
+        this.prevBtn = new LbPrevBtn(this);
+        this.nextBtn = new LbNextBtn(this);
     }
 
     init() {
+        this.$parent = document.querySelector(this.options.appendTo);
+
+        if (!this.$parent) {
+            throw new LbException(`Could not find parent node @ ${this.options.appendTo}`);
+        }
+
         this.$root = document.createElement('div');
         this.$root.id = this.options.uid;
         this.$root.classList.add('lightbox');
@@ -58,6 +72,7 @@ class Lightbox {
                 switch (e.keyCode) {
                 case 27:
                     // escape key
+                    e.preventDefault();
                     if (this.options.closeOnEscape) {
                         this.close();
                     }
@@ -65,12 +80,14 @@ class Lightbox {
 
                 case 37:
                     // left arrow key
+                    e.preventDefault();
                     if (this.options.arrowKeyNavigation) {
                         this.prev();
                     }
                     break;
                 case 39:
                     // right arrow key
+                    e.preventDefault();
                     if (this.options.arrowKeyNavigation) {
                         this.next();
                     }
@@ -79,19 +96,36 @@ class Lightbox {
             }
         });
 
-        document.body.appendChild(this.$root);
+        this.closeBtn.init();
+        if (!this.options.enableCloseBtn) {
+            this.closeBtn.hide();
+        }
+
+        this.prevBtn.init();
+        if (!this.options.enableNavigationBtn) {
+            this.prevBtn.hide();
+        }
+        
+        this.nextBtn.init();
+        if (!this.options.enableNavigationBtn) {
+            this.nextBtn.hide();
+        }
+
+        this.$parent.appendChild(this.$root);
     }
 
-    fetch(selector) {
-        const $targets = document.querySelectorAll(selector);
-        Array.from($targets).forEach(($node) => {
-            const data = JSON.parse($node.dataset.lightbox);
+    fetch(...selectors) {
+        selectors.forEach((selector) => {
+            const $targets = document.querySelectorAll(selector);
+            Array.from($targets).forEach(($node) => {
+                const data = JSON.parse($node.dataset.lightbox);
 
-            if (data.trigger === undefined) {
-                data.trigger = $node;
-            }
+                if (data.trigger === undefined) {
+                    data.trigger = $node;
+                }
 
-            this._addElement(data);
+                this._addElement(data);
+            });
         });
     }
 
@@ -111,7 +145,7 @@ class Lightbox {
         if (data.trigger instanceof Element) {
             data.trigger.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.show(element.key);
+                this.load(element.key);
                 this.open();
             });
         }
@@ -153,9 +187,21 @@ class Lightbox {
         this.count = this.elements.length;
     }
 
+    show(j) {
+        this.load(j);
+
+        if (!this.active) {
+            this.open();
+        }
+    }
+
     open() {
         this.active = true;
         this.$root.classList.add('active');
+
+        if (this.options.disableScroll) {
+            utility.disableScroll();
+        }
     }
 
     close() {
@@ -165,6 +211,10 @@ class Lightbox {
         if (this.currentIndex !== -1) {
             this.elements[this.currentIndex].hide();
             this.currentIndex = -1;
+        }
+
+        if (this.options.disableScroll) {
+            utility.enableScroll();
         }
     }
 
@@ -190,7 +240,7 @@ class Lightbox {
         return index;
     }
 
-    show (j) {
+    load (j) {
         // we got the index, now we can get the correct element
         const index = this.getIndex(j);
 
@@ -219,15 +269,15 @@ class Lightbox {
     }
 
     prev() {
-        this.show(this.currentIndex - 1);
+        this.load(this.currentIndex - 1);
     }
 
     next() {
-        this.show(this.currentIndex + 1);
+        this.load(this.currentIndex + 1);
     }
 
     random() {
-        this.show(Math.floor(Math.random() * this.count));
+        this.load(Math.floor(Math.random() * this.count));
     }
 
     keyExists(k) {
@@ -261,10 +311,14 @@ class Lightbox {
 
 Lightbox.DEFAULT_CONFIG = {
     uid: uniqid(),
+    appendTo: 'body',
+    disableScroll: true,
     rewind: true,
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,
+    enableCloseBtn: true,
+    enableNavigationBtn: true,
 };
 
 export default Lightbox;
