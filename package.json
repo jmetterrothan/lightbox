@@ -1,0 +1,33 @@
+{
+  "name": "jmetterrothan-lightbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "",
+  "author": "Jérémie Metter-Rothan",
+  "license": "MIT",
+  "keywords": [
+    "lightbox",
+    "gallery",
+    "images",
+    "videos",
+    "maps",
+    "modal",
+    "popin",
+    "javascript",
+    "sass",
+    "responsive"
+  ],
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "object-assign-deep": "^0.4.0",
+    "uniqid": "^5.0.3"
+  },
+  "devDependencies": {
+    "eslint-config-google": "^0.10.0",
+    "stylelint": "^9.5.0",
+    "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-scss": "^3.3.0"
+  },
+  "scripts": {}
+}

@@ -1,0 +1,29 @@
+.lightbox .message {
+    padding: 0 64px;
+    text-align: center;
+
+    &_loading {
+        color: #bdbdbd;
+        font-size: 0.9em;
+    }
+
+    &_error {
+        h4 {
+            font-size: 1.05em;
+            line-height: 2em;
+            color: #f31c1c;
+            font-weight: 600;
+            margin: 0;
+        }
+        p {
+            font-size: 0.9em;
+            line-height: 1.5em;
+            color: #bdbdbd;
+            font-weight: 300;
+            margin: 0;
+        }
+        button {
+            margin-top: 1.5em;
+        }
+    }
+}

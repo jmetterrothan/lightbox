@@ -1,0 +1,169 @@
+.lightbox .ui {
+    &_thumbnails {
+        pointer-events: initial;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        
+        .thumbnails-container {
+            pointer-events: none;
+            transform: translateY(32px);  
+            opacity: 0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-start;
+            transition: all ease .35s;
+
+            .thumb {
+                width: calc(100% / 6);
+                height: 128px;
+                flex-shrink: 0;
+                display: block;
+                cursor: pointer;
+                background: rgba(0, 0, 0, 0.95);
+
+                img {
+                    opacity: 1;
+                    display: block; 
+                    object-fit: cover;
+                    object-position: center;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
+        &:hover .thumbnails-container {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all ease .5s .15s;
+            pointer-events: initial;
+        }
+    }
+
+    &_bulletlist {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 32px;
+        list-style-type: none;
+
+        @if $lightbox-ui-bullelist-position == 'fixed' {
+            width: calc(100vw - 64px * 2 - 17px);
+            position: fixed;
+            left: 64px;
+            bottom: 16px;
+        }
+        @else {
+            position: absolute;
+            right: 0;
+            bottom: -48px;
+        }
+
+        li {
+            flex-shrink: 0;
+            pointer-events: initial;
+            width: 10px;
+            height: 10px;
+            background: #505050;
+            border-radius: 50%;
+            margin-right: 12px;
+            cursor:pointer;
+
+            &:hover, &.active {
+                background: #dadada;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    &_btn {
+        display: none;
+        width: 32px;
+        height: 32px;
+        font-size: 1.5em;
+        pointer-events: initial;
+        background: transparent;
+        border: none;
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        outline: none;
+        color:#505050;
+        cursor: pointer;
+        font-family: $lightbox-font-family;
+
+        &-prev {
+            @if $lightbox-ui-navigation-position == 'fixed' {
+                position: fixed;
+                left: 16px;
+                top: calc(50% - 16px);
+            } 
+            @else {
+                position: absolute;
+                left: -48px;
+                top: calc(50% - 16px); 
+            }
+
+            &::after {
+                content: '<';
+            }
+        }
+
+        &-next {
+            @if $lightbox-ui-navigation-position == 'fixed' {
+                position: fixed;
+                right: 16px;
+                top: calc(50% - 16px);
+            } 
+            @else {
+                position: absolute;
+                right: -48px;
+                top: calc(50% - 16px); 
+            }
+
+            &::after {
+                content: '>';
+            }
+        }
+
+        &-close {
+            @if $lightbox-ui-close-position == 'fixed' {
+                position: fixed;
+                right: 16px;
+                top: 16px;
+            }
+            @else {
+                position: absolute;
+                right: 0;
+                top: -48px;
+            }
+
+            &::after {
+                content: 'x';
+            }
+        }
+
+        &.disabled {
+            opacity: .25s;
+        }
+
+        &.active {
+            display: block;
+        }
+
+        &:hover {
+            color:#dadada;
+        }
+    }
+}
