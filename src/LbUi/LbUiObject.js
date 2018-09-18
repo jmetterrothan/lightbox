@@ -28,14 +28,14 @@ class LbUiObject {
 
     set active(bool) {
         if (bool === true) {
-            this.$root.classList.add('active');
+            this.$root.classList.remove('hidden');
         } else {
-            this.$root.classList.remove('active');
+            this.$root.classList.add('hidden');
         }
     }
 
     get active() {
-        this.$root.classList.contains('active');
+        !this.$root.classList.contains('hidden');
     }
 }
 

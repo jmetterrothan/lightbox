@@ -1,4 +1,4 @@
-const keys = {37: false, 38: false, 39: true, 40: true};
+const keys = { 37: true, 38: true, 39: true, 40: true };
 
 const preventDefault = (e) => {
     e = e || window.event;
