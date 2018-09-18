@@ -1,6 +1,6 @@
-import LbUi from './LbUi';
+import LbUiObject from './LbUiObject';
 
-class LbUiBtn extends LbUi {
+class LbUiBtn extends LbUiObject {
     init() {
         super.init('button');
         this.$root.classList.add('ui_btn');

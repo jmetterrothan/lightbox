@@ -1,6 +1,6 @@
-import LbUi from './LbUi';
+import LbUiObject from './LbUiObject';
 
-class LbUiBulletlist extends LbUi {
+class LbUiBulletlist extends LbUiObject {
     constructor(lightbox) {
         super(lightbox);
 

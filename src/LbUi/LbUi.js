@@ -1,41 +1,53 @@
+import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUiBtn';
+import LbBulletlist from './LbUiBulletlist';
+
 class LbUi {
     constructor(lightbox) {
         this.lightbox = lightbox;
         this.$root = null;
-    }
-    
-    init(tagName) {
-        this.$root = document.createElement(tagName);
-        this.$root.classList.add('ui');
-        this.lightbox.$ui.appendChild(this.$root);
+
+        this.bulletlist = new LbBulletlist(lightbox);
+        this.thumbnails = null;
+
+        this.closeBtn = new LbCloseBtn(lightbox);
+        this.prevBtn = new LbPrevBtn(lightbox);
+        this.nextBtn = new LbNextBtn(lightbox);
     }
 
-    addClass(...classList) {
-        this.$root.classList.add(...classList);
+    init() {
+        this.$root = document.createElement('div');
+        this.$root.classList.add('lightbox__ui');
+        this.lightbox.$container.appendChild(this.$root);
+
+        this.closeBtn.init();
+        this.closeBtn.active = this.lightbox.options.enableCloseBtn;
+
+        this.prevBtn.init();
+        this.prevBtn.active = this.lightbox.options.enableNavigationBtn;
+
+        this.nextBtn.init();
+        this.nextBtn.active = this.lightbox.options.enableNavigationBtn;
+
+        this.bulletlist.init();
+        this.bulletlist.active = this.lightbox.options.enableBullelist;
+
+        this.active = true;
     }
 
-    enable() {
-        this.$root.classList.remove('disabled');
+    set active(bool) {
+        if (bool === true) {
+            this.$root.classList.add('active');
+        } else {
+            this.$root.classList.remove('active');
+        }
     }
 
-    disable() {
-        this.$root.classList.add('disabled');
+    get active() {
+        this.$root.classList.contains('active');
     }
 
-    show() {
-        this.$root.classList.remove('hidden');
-    }
-
-    hide() {
-        this.$root.classList.add('hidden');
-    }
-
-    isDisabled() {
-        return this.$root.classList.contains('disabled');
-    }
-
-    isHidden() {
-        return this.$root.classList.contains('hidden');
+    toggle() {
+        this.active = !this.active;
     }
 }
 

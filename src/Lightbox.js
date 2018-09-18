@@ -8,8 +8,7 @@ import objectAssignDeep  from 'object-assign-deep';
 
 import LbElement from './LbElement/LbElement';
 import LbImageElement from './LbElement/LbImageElement';
-import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUi/LbUiBtn';
-import LbBulletlist from './LbUi/LbUiBulletlist';
+import LbUi from './LbUi/LbUi';
 import LbException from './LbException';
 
 import utility from './Utility/index';
@@ -19,31 +18,24 @@ class Lightbox {
         this.options = objectAssignDeep.noMutate(Lightbox.DEFAULT_CONFIG, options);
 
         this.elements = [];
-        this.thumbnails = [];
+        // this.thumbnails = [];
         this.count = 0;
-        this.active = false;
-        this.currentIndex = -1;
-        this.previousIndex = -1;
+
+        this._currentIndex = -1;
+        this._previousIndex = -1;
+        this._currentLoadingIndex = -1;
         
         this.$parent = null;
         this.$root = null;
         this.$container = null;
-        this.$ui = null;
 
-
-        this.uiBulletlist = new LbBulletlist(this);
-        this.$uiThumbnails = null;
-        this.uiThumbnailsContainer = null;
-
-        this.uiCloseBtn = new LbCloseBtn(this);
-        this.uiPrevBtn = new LbPrevBtn(this);
-        this.uiNextBtn = new LbNextBtn(this);
+        this.ui = new LbUi(this);
     }
 
-    static createElement(lightbox, data) {
+    createElement(data) {
         switch(data.type) {
         case 'image':
-            return new LbImageElement(lightbox, data);
+            return new LbImageElement(this, data);
         }
     }
 
@@ -62,12 +54,8 @@ class Lightbox {
         this.$container.classList.add('lightbox__container');
         this.$root.appendChild(this.$container);
 
-        this.$ui = document.createElement('div');
-        this.$ui.classList.add('lightbox__ui');
-        this.$container.appendChild(this.$ui);
-
-        this.$uiThumbnails = document.createElement('div');
-        this.$uiThumbnails.classList.add('ui-thumbnails');
+        // this.$uiThumbnails = document.createElement('div');
+        // this.$uiThumbnails.classList.add('ui-thumbnails');
         // this.$ui.appendChild(this.$uiThumbnails);
 
         this.$root.addEventListener('click', (e) => {
@@ -108,25 +96,7 @@ class Lightbox {
             }
         });
 
-        this.uiCloseBtn.init();
-        if (!this.options.enableCloseBtn) {
-            this.uiCloseBtn.hide();
-        }
-
-        this.uiPrevBtn.init();
-        if (!this.options.enableNavigationBtn) {
-            this.uiPrevBtn.hide();
-        }
-
-        this.uiNextBtn.init();
-        if (!this.options.enableNavigationBtn) {
-            this.uiNextBtn.hide();
-        }
-
-        this.uiBulletlist.init();
-        if (!this.options.enableBullelist) {
-            this.uiBulletlist.hide();
-        }
+        this.ui.init();
 
         this.$parent.appendChild(this.$root);
     }
@@ -147,7 +117,7 @@ class Lightbox {
     }
 
     _addElement(data) {
-        const element = Lightbox.createElement(this, data);
+        const element = this.createElement(data);
         element.init();
 
         if (data.preload === true) {
@@ -167,7 +137,7 @@ class Lightbox {
             });
         }
 
-        this.uiBulletlist.add(element);
+        this.ui.bulletlist.add(element);
 
         this.elements.push(element);
         this.count = this.elements.length;
@@ -216,35 +186,17 @@ class Lightbox {
 
     open() {
         this.active = true;
-        this.$root.classList.add('active');
 
         if (this.options.disableScroll) {
             utility.disableScroll();
         }
     }
 
-    hideUI() {
-        this.$ui.classList.add('hidden');
-    }
-
-    showUI() {
-        this.$ui.classList.remove('hidden');
-    }
-
-    toggleUI() {
-        if (this.$ui.classList.contains('hidden')) {
-            this.showUI();
-        } else {
-            this.hideUI();
-        }
-    }
-
     close() {
         this.active = false;
-        this.$root.classList.remove('active');
 
         if (this.currentIndex !== -1) {
-            this.elements[this.currentIndex].hide();
+            this.elements[this.currentIndex].active =  false;
             this.currentIndex = -1;
         }
 
@@ -291,20 +243,20 @@ class Lightbox {
         }
 
         if (previousElement instanceof LbElement) {
-            previousElement.hide();
+            previousElement.active = false;
         }
 
         // if it's not loaded yet
-        if (!element.loaded) {
-            element.load();
-        }
-        
-        element.show();
+        element.active = true;
 
-        this.previousIndex = this.currentIndex;
         this.currentIndex = index;
+        this.loading = !element.loaded;
 
-        this.uiBulletlist.update();
+        Promise.resolve(element.load()).then(() => {
+            if (index === this._currentLoadingIndex) {
+                this.loading = false;
+            }
+        });
     }
 
     prev() {
@@ -344,6 +296,42 @@ class Lightbox {
             return this.findIndexByRef(j);
         } else {
             return -1;
+        }
+    }
+
+    get loading() {
+        return this.$root.classList.contains('loading');
+    }
+
+    set loading(bool) {
+        if (bool === true) {
+            this.$root.classList.add('loading');
+            this._currentLoadingIndex = this.currentIndex;
+        } else {
+            this.$root.classList.remove('loading');
+        }
+    }
+
+    get currentIndex() {
+        return this._currentIndex;
+    }
+
+    set currentIndex(index) {
+        this._previousIndex = this._currentIndex;
+        this._currentIndex = index;
+
+        this.ui.bulletlist.update();
+    }
+
+    get active() {
+        return this.$root.classList.contains('active');
+    }
+
+    set active(bool) {
+        if (bool === true) {
+            this.$root.classList.add('active');
+        } else {
+            this.$root.classList.remove('active');
         }
     }
 }

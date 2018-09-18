@@ -8,7 +8,6 @@ class LbElement {
         this.typeName = typeName;
 
         this.key = uniqid();
-        this.active = false;
         this.loaded = false;
         this.loading = false;
 
@@ -66,14 +65,16 @@ class LbElement {
         this.replaceContent($loading);
     }
 
-    show() {
-        this.$root.classList.add('active');
-        this.active = true;
+    get active() {
+        return this.$root.classList.contains('active');
     }
 
-    hide() {
-        this.$root.classList.remove('active');
-        this.active = false;
+    set active(bool) {
+        if (bool === true) {
+            this.$root.classList.add('active');
+        } else {
+            this.$root.classList.remove('active');
+        }
     }
 }
 
