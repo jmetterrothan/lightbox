@@ -33,8 +33,10 @@ class LbImageElement extends LbElement {
                 this.$progress.textContent = `${parseInt(img.loadingProgress, 10)}%`;
             }
         }).then(() => {
+            this.failed = false;
             this.showLoadedState(img);
         }).catch((e) => {
+            this.failed = true;
             this.showErrorState(e.message);
         }).finally(() => {       
             this.loading = false;

@@ -9,7 +9,7 @@ class LbUiBtn extends LbUiObject {
     update() { }
 }
 
-export class LbCloseBtn extends LbUiBtn {
+export class LbUiCloseBtn extends LbUiBtn {
     init() {
         super.init();
         this.$root.classList.add('ui_btn-close');
@@ -17,7 +17,7 @@ export class LbCloseBtn extends LbUiBtn {
     }
 }
 
-export class LbPrevBtn extends LbUiBtn {
+export class LbUiPrevBtn extends LbUiBtn {
     init() {
         super.init();
         this.$root.classList.add('ui_btn-prev');
@@ -31,7 +31,7 @@ export class LbPrevBtn extends LbUiBtn {
     }
 }
 
-export class LbNextBtn extends LbUiBtn {
+export class LbUiNextBtn extends LbUiBtn {
     init() {
         super.init();
         this.$root.classList.add('ui_btn-next');

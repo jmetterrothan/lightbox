@@ -87,6 +87,24 @@
         }
     }
 
+    &_pagination {
+        font-size: .9em;
+        font-weight: 400;
+        color: #dadada;
+        line-height: 32px;
+
+        @if $lightbox-ui-pagination-position == 'fixed' {
+            position: fixed;
+            left: 16px;
+            top: 16px;
+        } 
+        @else {
+            position: absolute;
+            left: 0;
+            top: -32px; 
+        }
+    }
+
     &_btn {
         display: block;
         width: 32px;

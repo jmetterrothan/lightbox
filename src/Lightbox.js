@@ -251,11 +251,18 @@ class Lightbox {
 
         this.currentIndex = index;
         this.loading = !element.loaded;
+        this.failed = element.failed;
 
-        Promise.resolve(element.load()).then(() => {
+        this.ui.update();
+
+        Promise.resolve(element.load()).finally(() => {
             if (index === this._currentLoadingIndex) {
                 this.loading = false;
+                this.failed = element.failed;
             }
+
+            // slight delay to account for the image rendering
+            this.ui.update();
         });
     }
 
@@ -299,6 +306,18 @@ class Lightbox {
         }
     }
 
+    get failed() {
+        return this.$root.classList.contains('failed');
+    }
+
+    set failed(bool) {
+        if (bool === true) {
+            this.$root.classList.add('failed');
+        } else {
+            this.$root.classList.remove('failed');
+        }
+    }
+
     get loading() {
         return this.$root.classList.contains('loading');
     }
@@ -319,10 +338,6 @@ class Lightbox {
     set currentIndex(index) {
         this._previousIndex = this._currentIndex;
         this._currentIndex = index;
-
-        this.ui.bulletlist.update();
-        this.ui.prevBtn.update();
-        this.ui.nextBtn.update();
     }
 
     get active() {
@@ -349,6 +364,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableCloseBtn: true,
     enableNavigationBtn: true,
     enableBullelist: true,
+    enablePagination: true,
 };
 
 export default Lightbox;

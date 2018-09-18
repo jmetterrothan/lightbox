@@ -1,17 +1,19 @@
-import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUiBtn';
-import LbBulletlist from './LbUiBulletlist';
+import { LbUiCloseBtn, LbUiPrevBtn, LbUiNextBtn } from './LbUiBtn';
+import LbUiBulletlist from './LbUiBulletlist';
+import LbUiPagination from './LbUiPagination';
 
 class LbUi {
     constructor(lightbox) {
         this.lightbox = lightbox;
         this.$root = null;
 
-        this.bulletlist = new LbBulletlist(lightbox);
+        this.bulletlist = new LbUiBulletlist(lightbox);
+        this.pagination = new LbUiPagination(lightbox);
         this.thumbnails = null;
 
-        this.closeBtn = new LbCloseBtn(lightbox);
-        this.prevBtn = new LbPrevBtn(lightbox);
-        this.nextBtn = new LbNextBtn(lightbox);
+        this.closeBtn = new LbUiCloseBtn(lightbox);
+        this.prevBtn = new LbUiPrevBtn(lightbox);
+        this.nextBtn = new LbUiNextBtn(lightbox);
     }
 
     init() {
@@ -31,6 +33,9 @@ class LbUi {
         this.bulletlist.init();
         this.bulletlist.active = this.lightbox.options.enableBullelist;
 
+        this.pagination.init();
+        this.pagination.active = this.lightbox.options.enablePagination;
+
         this.active = true;
     }
 
@@ -48,6 +53,13 @@ class LbUi {
 
     toggle() {
         this.active = !this.active;
+    }
+
+    update() {
+        this.bulletlist.update();
+        this.prevBtn.update();
+        this.nextBtn.update();
+        this.pagination.update();
     }
 }
 

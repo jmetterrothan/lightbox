@@ -10,6 +10,7 @@ class LbElement {
         this.key = uniqid();
         this.loaded = false;
         this.loading = false;
+        this.failed = false;
 
         this.$root =  null;
         this.$progress = null;
