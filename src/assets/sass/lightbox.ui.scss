@@ -155,7 +155,7 @@
         }
 
         &.disabled {
-            opacity: .25s;
+            visibility: hidden;
         }
 
         &.active {

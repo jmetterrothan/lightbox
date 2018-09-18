@@ -5,6 +5,8 @@ class LbUiBtn extends LbUiObject {
         super.init('button');
         this.$root.classList.add('ui_btn');
     }
+
+    update() { }
 }
 
 export class LbCloseBtn extends LbUiBtn {
@@ -21,6 +23,12 @@ export class LbPrevBtn extends LbUiBtn {
         this.$root.classList.add('ui_btn-prev');
         this.$root.addEventListener('click', () => this.lightbox.prev());
     }
+
+    update() {
+        if (!this.lightbox.options.rewind) {
+            this.disabled = this.lightbox.currentIndex === 0;
+        }
+    }
 }
 
 export class LbNextBtn extends LbUiBtn {
@@ -28,6 +36,12 @@ export class LbNextBtn extends LbUiBtn {
         super.init();
         this.$root.classList.add('ui_btn-next');
         this.$root.addEventListener('click', () => this.lightbox.next());
+    }
+
+    update() {
+        if (!this.lightbox.options.rewind) {
+            this.disabled = this.lightbox.currentIndex === this.lightbox.count - 1;
+        }
     }
 }
 

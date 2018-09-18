@@ -321,6 +321,8 @@ class Lightbox {
         this._currentIndex = index;
 
         this.ui.bulletlist.update();
+        this.ui.prevBtn.update();
+        this.ui.nextBtn.update();
     }
 
     get active() {
