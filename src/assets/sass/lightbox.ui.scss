@@ -14,15 +14,15 @@
         list-style-type: none;
 
         @if $lb_ui-bulletlist_position == 'fixed' {
-            width: calc(100vw - #{$lb_padding} * 2 - 17px);
+            width: calc(100vw - #{$lb_horizontal-padding} * 2 - 17px);
             position: fixed;
-            left: $lb_padding;
-            bottom: #{$lb_padding / 2 - 16px};
+            left: $lb_horizontal-padding;
+            bottom: #{$lb_vertical-padding / 2 - 16px};
         }
         @else {
             position: absolute;
             right: 0;
-            bottom: -48px;
+            bottom: -32px;
         }
 
         li {
@@ -57,31 +57,34 @@
 
         @if $lb_ui-pagination_position == 'fixed' {
             position: fixed;
-            right: $lb_padding;
-            top: #{$lb_padding / 2 - 16px};
-        } 
-        @else {
-            position: absolute;
-            right: 0;
-            top: -32px; 
-        }
-    }
-
-    &_title {
-        font-size: $lb_ui-title_font-size;
-        font-weight: $lb_ui-title_font-weight;
-        color: $lb_ui-title_color;
-        line-height: 32px;
-
-        @if $lb_ui-title_position == 'fixed' {
-            position: fixed;
-            left: $lb_padding;
-            top: #{$lb_padding / 2 - 16px};
+            left: $lb_horizontal-padding / 2;
+            bottom: #{$lb_vertical-padding / 2 - 16px};
         } 
         @else {
             position: absolute;
             left: 0;
-            top: -32px; 
+            bottom: -32px;
+        }
+    }
+
+    &_title {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        height: 32px;
+        font-size: $lb_ui-title_font-size;
+        font-weight: $lb_ui-title_font-weight;
+        color: $lb_ui-title_color;
+
+        @if $lb_ui-title_position == 'fixed' {
+            position: fixed;
+            left: $lb_horizontal-padding / 2;
+            top: #{$lb_vertical-padding / 2 - 16px};
+        } 
+        @else {
+            position: absolute;
+            left: 0;
+            top: -32px;
         }
     }
 
@@ -89,7 +92,7 @@
         display: block;
         width: 32px;
         height: 32px;
-        font-size: $lb_ui-btn_font-size;
+        font-size: 1em;
         font-weight: $lb_ui-btn_font-weight;
         pointer-events: initial;
         background: transparent;
@@ -103,9 +106,11 @@
         font-family: $lb_ui-btn_font-family;
 
         &-prev {
+            font-size: $lb_ui-btn-prev_font-size;
+
             @if $lb_ui-btn-prev_position == 'fixed' {
                 position: fixed;
-                left: #{$lb_padding / 2 - 16px};
+                left: #{$lb_horizontal-padding / 2 - 16px};
                 top: calc(50% - 16px);
             } 
             @else {
@@ -120,9 +125,11 @@
         }
 
         &-next {
+            font-size: $lb_ui-btn-next_font-size;
+
             @if $lb_ui-btn-next_position == 'fixed' {
                 position: fixed;
-                right: #{$lb_padding / 2 - 16px};
+                right: #{$lb_horizontal-padding / 2 - 16px};
                 top: calc(50% - 16px);
             } 
             @else {
@@ -137,24 +144,51 @@
         }
 
         &-close {
-            @if $lb_ui-btn-close_position == 'fixed' {
-                position: fixed;
-                right: #{$lb_padding / 2 - 16px};
-                top: #{$lb_padding / 2 - 16px};
-            }
-            @else {
-                position: absolute;
-                right: 0;
-                top: -48px;
-            }
+            font-size: $lb_ui-btn-close_font-size;
 
             &::before {
                 content: $lb_ui-btn-close_content;
             }
         }
 
+        &-fullscreen {
+            font-size: $lb_ui-btn-fullscreen_font-size;
+            
+            &::before {
+                content: $lb_ui-btn-fullscreen_content_off;
+            }
+
+            &.on {
+                &::before {
+                    content: $lb_ui-btn-fullscreen_content_on;
+                }
+            }
+        }
+
         &:hover {
             color: $lb_ui-btn_color_hover;
+        }
+    }
+
+    &_options {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 32px;
+
+        & > .ui {
+            margin-left: 16px;
+        }
+
+        @if $lb_ui-options_position == 'fixed' {
+            position: fixed;
+            right: #{$lb_horizontal-padding / 2 - 16px};
+            top: #{$lb_vertical-padding / 2 - 16px};
+        }
+        @else {
+            position: absolute;
+            right: 0;
+            top: -32px;
         }
     }
 

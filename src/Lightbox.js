@@ -214,6 +214,10 @@ class Lightbox {
     close() {
         this.active = false;
 
+        if (this.fullscreen === true) {
+            this.disableFullscreen();
+        }
+
         if (this.currentIndex !== -1) {
             this.elements[this.currentIndex].active =  false;
             this.currentIndex = -1;
@@ -234,12 +238,22 @@ class Lightbox {
 
     toggleFullscreen() {
         if (this.fullscreen === true) {
-            utility.closeFullscreen();
-            this.fullscreen = false;
+            this.disableFullscreen();
         } else {
-            utility.openFullscreen(this.$root);
-            this.fullscreen = true;
+            this.enableFullscreen();
         }
+    }
+
+    enableFullscreen() {
+        utility.openFullscreen(this.$root);
+        this.fullscreen = true;
+        this.ui.options.fullscreenBtn.update();
+    }
+
+    disableFullscreen() {
+        utility.closeFullscreen();
+        this.fullscreen = false;
+        this.ui.options.fullscreenBtn.update();
     }
 
     getCurrent() {

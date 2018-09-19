@@ -4,10 +4,15 @@ class LbUiObject {
         this.$root = null;
     }
     
-    init(tagName) {
+    init(tagName, $parent = null) {
         this.$root = document.createElement(tagName);
         this.$root.classList.add('ui');
-        this.lightbox.ui.$root.appendChild(this.$root);
+        
+        if ($parent instanceof Element) {
+            $parent.appendChild(this.$root);
+        } else {
+            this.lightbox.ui.$root.appendChild(this.$root);
+        }
     }
 
     addClass(...classList) {

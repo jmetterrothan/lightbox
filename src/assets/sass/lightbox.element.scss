@@ -16,8 +16,8 @@
         img {
             margin: 0;
             display: block;
-            max-width: calc(100vw - #{$lb_padding} * 2 - 17px);
-            max-height: calc(100vh - #{$lb_padding} * 2);
+            max-width: calc(100vw - #{$lb_horizontal-padding} * 2 - 17px);
+            max-height: calc(100vh - #{$lb_vertical-padding} * 2);
             width: auto;
             height: auto;
             object-fit: cover;

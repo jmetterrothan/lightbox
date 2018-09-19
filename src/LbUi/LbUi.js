@@ -1,8 +1,9 @@
-import { LbUiCloseBtn, LbUiPrevBtn, LbUiNextBtn } from './LbUiBtn';
+import { LbUiPrevBtn, LbUiNextBtn } from './LbUiBtn';
 import LbUiBulletlist from './LbUiBulletlist';
 import LbUiPagination from './LbUiPagination';
 import LbUiTitle from './LbUiTitle';
 import LbUiThumbnails from './LbUiThumbnails';
+import LbUiOptions from './LbUiOptions';
 
 class LbUi {
     constructor(lightbox) {
@@ -13,10 +14,10 @@ class LbUi {
         this.pagination = new LbUiPagination(lightbox);
         this.thumbnailNav = new LbUiThumbnails(lightbox);
 
-        this.closeBtn = new LbUiCloseBtn(lightbox);
         this.prevBtn = new LbUiPrevBtn(lightbox);
         this.nextBtn = new LbUiNextBtn(lightbox);
         this.title = new LbUiTitle(lightbox);
+        this.options = new LbUiOptions(lightbox);
     }
 
     init() {
@@ -24,8 +25,8 @@ class LbUi {
         this.$root.classList.add('lightbox__ui');
         this.lightbox.$container.appendChild(this.$root);
 
-        this.closeBtn.init();
-        this.closeBtn.active = this.lightbox.options.enableCloseBtn;
+        this.options.init();
+        this.options.active = true;
 
         this.prevBtn.init();
         this.prevBtn.active = this.lightbox.options.enableNavigationBtn;
@@ -71,6 +72,7 @@ class LbUi {
         this.pagination.update();
         this.thumbnailNav.update();
         this.title.update();
+        this.options.update();
     }
 }
 

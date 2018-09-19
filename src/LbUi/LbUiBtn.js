@@ -1,23 +1,41 @@
 import LbUiObject from './LbUiObject';
 
 class LbUiBtn extends LbUiObject {
-    init() {
-        super.init('button');
+    init($parent = null) {
+        super.init('button', $parent);
         this.$root.classList.add('ui_btn');
     }
 }
 
 export class LbUiCloseBtn extends LbUiBtn {
-    init() {
-        super.init();
+    init($parent = null) {
+        super.init($parent);
         this.$root.classList.add('ui_btn-close');
         this.$root.addEventListener('click', () => this.lightbox.close());
     }
 }
 
+export class LbUiFullscreenBtn extends LbUiBtn {
+    init($parent = null) {
+        super.init($parent);
+        this.$root.classList.add('ui_btn-fullscreen');
+        this.$root.addEventListener('click', () => {
+            this.lightbox.toggleFullscreen();
+        });
+    }
+
+    update() {
+        if (this.lightbox.fullscreen === true) {
+            this.$root.classList.add('on');
+        } else {
+            this.$root.classList.remove('on');
+        }
+    }
+}
+
 export class LbUiPrevBtn extends LbUiBtn {
-    init() {
-        super.init();
+    init($parent = null) {
+        super.init($parent);
         this.$root.classList.add('ui_btn-prev');
         this.$root.addEventListener('click', () => this.lightbox.prev());
     }
@@ -30,8 +48,8 @@ export class LbUiPrevBtn extends LbUiBtn {
 }
 
 export class LbUiNextBtn extends LbUiBtn {
-    init() {
-        super.init();
+    init($parent = null) {
+        super.init($parent);
         this.$root.classList.add('ui_btn-next');
         this.$root.addEventListener('click', () => this.lightbox.next());
     }
