@@ -3,6 +3,8 @@
 import "babel-polyfill";
 import "./Utility/classList.polyfill.min";
 
+import Hammer from 'hammerjs';
+
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
@@ -114,7 +116,37 @@ class Lightbox {
                 }
             }
         });
+
         
+        
+        // Gestures
+        const h = new Hammer(this.$root);
+
+        h.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        h.get('tap').set({ taps: 2 });
+
+        // controls when swiping
+        h.on('swiperight', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.prev();
+            }
+        });
+
+        h.on('swipeleft', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.next();
+            }
+        });
+
+        // close on double tap
+        h.on('tap', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.close();
+            }
+        });
+
+
+        // Fullscreen change handlers
         const fullscreenChanged = () => {
             const test = utility.getFullscreenElement();
 
