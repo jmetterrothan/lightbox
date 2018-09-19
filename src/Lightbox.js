@@ -114,6 +114,18 @@ class Lightbox {
                 }
             }
         });
+        
+        const fullscreenChanged = () => {
+            const test = utility.getFullscreenElement();
+
+            this.fullscreen = test !== null;
+            this.ui.options.fullscreenBtn.update();
+        };
+
+        document.onfullscreenchange = fullscreenChanged;
+        document.onmozfullscreenchange = fullscreenChanged;
+        document.onwebkitfullscreenchange = fullscreenChanged;
+        document.onmsfullscreenchange = fullscreenChanged;
 
         this.ui.init();
 
@@ -246,14 +258,10 @@ class Lightbox {
 
     enableFullscreen() {
         utility.openFullscreen(this.$root);
-        this.fullscreen = true;
-        this.ui.options.fullscreenBtn.update();
     }
 
     disableFullscreen() {
         utility.closeFullscreen();
-        this.fullscreen = false;
-        this.ui.options.fullscreenBtn.update();
     }
 
     getCurrent() {
