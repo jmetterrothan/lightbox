@@ -20,6 +20,7 @@ class Lightbox {
         this.elements = [];
         // this.thumbnails = [];
         this.count = 0;
+        this.fullscreen = false;
 
         this._currentIndex = -1;
         this._previousIndex = -1;
@@ -231,6 +232,16 @@ class Lightbox {
         }
     }
 
+    toggleFullscreen() {
+        if (this.fullscreen === true) {
+            utility.closeFullscreen();
+            this.fullscreen = false;
+        } else {
+            utility.openFullscreen(this.$root);
+            this.fullscreen = true;
+        }
+    }
+
     getCurrent() {
         return this.elements[this.currentIndex];
     }
@@ -389,6 +400,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableBullelist: true,
     enablePagination: true,
     enableTitle: true,
+    allowFullscreen: true,
 };
 
 export default Lightbox;
