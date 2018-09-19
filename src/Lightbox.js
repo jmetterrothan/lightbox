@@ -399,6 +399,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableNavigationBtn: true,
     enableBullelist: true,
     enablePagination: true,
+    enableThumbnails: true,
     enableTitle: true,
     allowFullscreen: true,
 };
