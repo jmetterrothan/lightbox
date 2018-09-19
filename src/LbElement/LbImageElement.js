@@ -1,9 +1,10 @@
 import LbElement from './LbElement';
 
 class LbImageElement extends LbElement {
-    constructor(lightbox, { src, thumbnail, alt, width = -1, height = -1}) {
+    constructor(lightbox, { title, src, thumbnail, alt, width = -1, height = -1}) {
         super(lightbox, 'image');
 
+        this.title = title;
         this.src = src;
         this.thumbnail = thumbnail;
         this.alt = alt;

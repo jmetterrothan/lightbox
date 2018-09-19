@@ -213,6 +213,10 @@ class Lightbox {
         }
     }
 
+    getCurrent() {
+        return this.elements[this.currentIndex];
+    }
+
     getIndex(j) {
         // fetch new index
         let index = this.findIndex(j);
@@ -365,6 +369,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableNavigationBtn: true,
     enableBullelist: true,
     enablePagination: true,
+    enableTitle: true,
 };
 
 export default Lightbox;
