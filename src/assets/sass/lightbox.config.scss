@@ -13,7 +13,7 @@ $lb_vertical-padding : 48px !default;
     $lb_vertical-padding : 38px;
 }
 
-$lb_bgcolor : rgba(0, 0, 0, 0.925) !default;
+$lb_bgcolor : rgba(0, 0, 0, 0.985) !default;
 $lb_font-size : 16px !default;
 $lb_font-family : Arial, sans-serif !default;
 
@@ -28,11 +28,6 @@ $lb_ui-btn_font-weight : 400 !default;
 $lb_ui-btn_color : #757575 !default;
 $lb_ui-btn_color_hover : #dadada !default;
 
-$lb_ui-options_position : 'fixed' !default;
-
-$lb_ui-btn-close_content : 'x' !default;
-$lb_ui-btn-close_font-size : 1.5em !default;
-
 $lb_ui-btn-prev_position : 'fixed' !default;
 $lb_ui-btn-prev_content : '<' !default;
 $lb_ui-btn-prev_font-size : 1.5em !default;
@@ -41,9 +36,21 @@ $lb_ui-btn-next_position : 'fixed' !default;
 $lb_ui-btn-next_content : '>' !default;
 $lb_ui-btn-next_font-size : 1.5em !default;
 
+$lb_ui-options_position : 'fixed' !default;
+
+$lb_ui-btn-close_content : 'x' !default;
+$lb_ui-btn-close_font-size : 1.5em !default;
+$lb_ui-btn-close_order : 3 !default;
+
 $lb_ui-btn-fullscreen_content_off : 'F' !default;
 $lb_ui-btn-fullscreen_content_on : 'C' !default;
 $lb_ui-btn-fullscreen_font-size : 1.5em !default;
+$lb_ui-btn-fullscreen_order : 2 !default;
+
+$lb_ui-btn-autoplay_content_off : 'A' !default;
+$lb_ui-btn-autoplay_content_on : 'B' !default;
+$lb_ui-btn-autoplay_font-size : 1.5em !default;
+$lb_ui-btn-autoplay_order : 1 !default;
 
 // ui misc
 

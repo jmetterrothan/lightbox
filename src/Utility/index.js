@@ -61,9 +61,23 @@ const closeFullscreen = () => {
     }
 };
 
+const getFullscreenElement = () => {
+    if (document.webkitFullscreenElement) {
+        return document.webkitFullscreenElement;
+    } else if (document.mozFullScreenElement) {
+        return document.mozFullScreenElement;
+    } else if (document.msFullscreenElement) {
+        return document.msFullscreenElement;
+    } else if (document.fullscreenElement) {
+        return document.fullscreenElement;   
+    }
+    return null;
+}
+
 export default {
     disableScroll,
     enableScroll,
     openFullscreen,
     closeFullscreen,
+    getFullscreenElement,
 };

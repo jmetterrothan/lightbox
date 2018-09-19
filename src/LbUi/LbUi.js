@@ -18,6 +18,8 @@ class LbUi {
         this.nextBtn = new LbUiNextBtn(lightbox);
         this.title = new LbUiTitle(lightbox);
         this.options = new LbUiOptions(lightbox);
+
+        this.$progress = null;
     }
 
     init() {

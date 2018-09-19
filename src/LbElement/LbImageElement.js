@@ -1,4 +1,5 @@
 import LbElement from './LbElement';
+import LbUiProgressBar from '../LbUi/LbUiProgressBar';
 
 class LbImageElement extends LbElement {
     constructor(lightbox, { title, src, thumbnail, alt, width = -1, height = -1}) {
@@ -10,6 +11,8 @@ class LbImageElement extends LbElement {
         this.alt = alt;
         this.width = parseInt(width, 10);
         this.height = parseInt(height, 10);
+        
+        this.progressBar = new LbUiProgressBar(lightbox, 'red');
     }
 
     load() {
@@ -20,9 +23,13 @@ class LbImageElement extends LbElement {
         // loading flag will prevent any further attempt
         this.loading = true;
         this.showLoadingState();
+        
+        this.progressBar.init(this.$root);
+        this.progressBar.active = this.lightbox.options.enableProgressBar;
 
         // image setup
         const img = new Image();
+        img.classList.add('lightbox__content');
 
         if (this.width != -1) img.style.width = `${this.width}px`;
         if (this.height != -1) img.style.height = `${this.height}px`;
@@ -30,6 +37,8 @@ class LbImageElement extends LbElement {
 
         // load
         return img.load(this.src, () => {
+            this.progressBar.update(img.loadingProgress);
+
             if (this.$progress) {
                 this.$progress.textContent = `${parseInt(img.loadingProgress, 10)}%`;
             }
@@ -42,6 +51,10 @@ class LbImageElement extends LbElement {
         }).finally(() => {       
             this.loading = false;
             this.loaded = true;
+
+            setTimeout(() => {
+                this.progressBar.active = false;
+            }, 650);
         });
     }
 }

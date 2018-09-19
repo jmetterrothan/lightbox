@@ -1,5 +1,5 @@
 import LbUiObject from './LbUiObject';
-import { LbUiCloseBtn, LbUiFullscreenBtn } from './LbUiBtn';
+import { LbUiCloseBtn, LbUiFullscreenBtn, LbUiAutoplayBtn } from './LbUiBtn';
 
 class LbUiOptions extends LbUiObject {
     constructor(lightbox) {
@@ -7,6 +7,7 @@ class LbUiOptions extends LbUiObject {
 
         this.closeBtn = new LbUiCloseBtn(lightbox);
         this.fullscreenBtn = new LbUiFullscreenBtn(lightbox);
+        this.autoplayBtn = new LbUiAutoplayBtn(lightbox);
     }
 
     init() {
@@ -18,11 +19,15 @@ class LbUiOptions extends LbUiObject {
 
         this.closeBtn.init(this.$root);
         this.closeBtn.active = this.lightbox.options.enableCloseBtn;
+
+        this.autoplayBtn.init(this.$root);
+        this.autoplayBtn.active = this.lightbox.options.enableAutoplayBtn;
     }
 
     update() {
         this.closeBtn.update();
         this.fullscreenBtn.update();
+        this.autoplayBtn.update();
     }
 }
 

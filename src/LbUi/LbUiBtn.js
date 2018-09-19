@@ -19,13 +19,27 @@ export class LbUiFullscreenBtn extends LbUiBtn {
     init($parent = null) {
         super.init($parent);
         this.$root.classList.add('ui_btn-fullscreen');
-        this.$root.addEventListener('click', () => {
-            this.lightbox.toggleFullscreen();
-        });
+        this.$root.addEventListener('click', () => this.lightbox.toggleFullscreen());
     }
 
     update() {
         if (this.lightbox.fullscreen === true) {
+            this.$root.classList.add('on');
+        } else {
+            this.$root.classList.remove('on');
+        }
+    }
+}
+
+export class LbUiAutoplayBtn extends LbUiBtn {
+    init($parent = null) {
+        super.init($parent);
+        this.$root.classList.add('ui_btn-autoplay');
+        this.$root.addEventListener('click', () => this.lightbox.toggleAutoplay());
+    }
+
+    update() {
+        if (this.lightbox.autoplay === true) {
             this.$root.classList.add('on');
         } else {
             this.$root.classList.remove('on');

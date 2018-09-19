@@ -412,6 +412,8 @@ Lightbox.DEFAULT_CONFIG = {
     uid: uniqid(),
     appendTo: 'body',
     disableScroll: true,
+    autoStart: true,
+    delay: 2500,
     rewind: true,
     closeOnBlur: true,
     closeOnEscape: true,
@@ -419,10 +421,12 @@ Lightbox.DEFAULT_CONFIG = {
     scrollNavigation: true,
     enableCloseBtn: true,
     enableNavigationBtn: true,
+    enableAutoplayBtn: true,
     enableBulletlist: true,
     enablePagination: true,
     enableThumbnails: true,
     enableTitle: true,
+    enableProgressBar: true,
     allowFullscreen: true,
 };
 
