@@ -12,10 +12,10 @@
     max-height: 100%;
     width: 100vw;
     height: 100vh;
-    padding: 64px;
-    background: $lightbox-bgcolor;
-    font-size: $lightbox-font-size;
-    font-family: $lightbox-font-family;
+    padding: $lb_padding;
+    background: $lb_bgcolor;
+    font-size: $lb_font-size;
+    font-family: $lb_font-family;
     align-items: center;
     justify-content: center;
 

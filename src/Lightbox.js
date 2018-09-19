@@ -397,7 +397,7 @@ Lightbox.DEFAULT_CONFIG = {
     scrollNavigation: true,
     enableCloseBtn: true,
     enableNavigationBtn: true,
-    enableBullelist: true,
+    enableBulletlist: true,
     enablePagination: true,
     enableThumbnails: true,
     enableTitle: true,

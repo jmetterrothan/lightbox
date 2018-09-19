@@ -34,7 +34,7 @@ class LbUi {
         this.nextBtn.active = this.lightbox.options.enableNavigationBtn;
 
         this.bulletlist.init();
-        this.bulletlist.active = this.lightbox.options.enableBullelist;
+        this.bulletlist.active = this.lightbox.options.enableBulletlist;
 
         this.pagination.init();
         this.pagination.active = this.lightbox.options.enablePagination;

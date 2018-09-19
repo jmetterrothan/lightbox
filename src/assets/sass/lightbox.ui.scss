@@ -1,48 +1,6 @@
 .lightbox .ui {
     &_thumbnails {
-        pointer-events: initial;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        overflow: hidden;
-        
-        .thumbnails-container {
-            pointer-events: none;
-            transform: translateY(32px);  
-            opacity: 0;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-flow: row nowrap;
-            justify-content: flex-start;
-            transition: all ease .35s;
-
-            .thumb {
-                width: calc(100% / 6);
-                height: 128px;
-                flex-shrink: 0;
-                display: block;
-                cursor: pointer;
-                background: rgba(0, 0, 0, 0.95);
-
-                img {
-                    opacity: 1;
-                    display: block; 
-                    object-fit: cover;
-                    object-position: center;
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
-
-        &:hover .thumbnails-container {
-            opacity: 1;
-            transform: translateY(0);
-            transition: all ease .5s .15s;
-            pointer-events: initial;
-        }
+        //  ...
     }
 
     &_bulletlist {
@@ -55,11 +13,11 @@
         height: 32px;
         list-style-type: none;
 
-        @if $lightbox-ui-bullelist-position == 'fixed' {
-            width: calc(100vw - 64px * 2 - 17px);
+        @if $lb_ui-bulletlist_position == 'fixed' {
+            width: calc(100vw - #{$lb_padding} * 2 - 17px);
             position: fixed;
-            left: 64px;
-            bottom: 16px;
+            left: $lb_padding;
+            bottom: #{$lb_padding / 2 - 16px};
         }
         @else {
             position: absolute;
@@ -71,15 +29,18 @@
             flex-shrink: 0;
             flex-grow: 0;
             pointer-events: initial;
-            width: 10px;
-            height: 10px;
-            background: #505050;
+            width: $lb_ui-bulletlist_size;
+            height: $lb_ui-bulletlist_size;
+            background: $lb_ui-bulletlist_color;
             border-radius: 50%;
             margin-right: 12px;
             cursor:pointer;
 
-            &:hover, &.active {
-                background: #dadada;
+            &.active {
+                background: $lb_ui-bulletlist_color_active;
+            }
+            &:hover {
+                background: $lb_ui-bulletlist_color_hover;
             }
 
             &:last-child {
@@ -89,15 +50,15 @@
     }
 
     &_pagination {
-        font-size: .9em;
-        font-weight: 400;
-        color: #dadada;
+        font-size: $lb_ui-pagination_font-size;
+        font-weight: $lb_ui-pagination_font-weight;
+        color: $lb_ui-pagination_color;
         line-height: 32px;
 
-        @if $lightbox-ui-pagination-position == 'fixed' {
+        @if $lb_ui-pagination_position == 'fixed' {
             position: fixed;
-            right: 16px;
-            top: 16px;
+            right: $lb_padding;
+            top: #{$lb_padding / 2 - 16px};
         } 
         @else {
             position: absolute;
@@ -107,15 +68,15 @@
     }
 
     &_title {
-        font-size: .9em;
-        font-weight: 400;
-        color: #dadada;
+        font-size: $lb_ui-title_font-size;
+        font-weight: $lb_ui-title_font-weight;
+        color: $lb_ui-title_color;
         line-height: 32px;
 
-        @if $lightbox-ui-pagination-position == 'fixed' {
+        @if $lb_ui-title_position == 'fixed' {
             position: fixed;
-            left: 16px;
-            top: 16px;
+            left: $lb_padding;
+            top: #{$lb_padding / 2 - 16px};
         } 
         @else {
             position: absolute;
@@ -128,7 +89,8 @@
         display: block;
         width: 32px;
         height: 32px;
-        font-size: 1.5em;
+        font-size: $lb_ui-btn_font-size;
+        font-weight: $lb_ui-btn_font-weight;
         pointer-events: initial;
         background: transparent;
         border: none;
@@ -136,14 +98,14 @@
         padding: 0;
         margin: 0;
         outline: none;
-        color:#505050;
+        color: $lb_ui-btn_color;
         cursor: pointer;
-        font-family: $lightbox-font-family;
+        font-family: $lb_ui-btn_font-family;
 
         &-prev {
-            @if $lightbox-ui-navigation-position == 'fixed' {
+            @if $lb_ui-btn-prev_position == 'fixed' {
                 position: fixed;
-                left: 16px;
+                left: #{$lb_padding / 2 - 16px};
                 top: calc(50% - 16px);
             } 
             @else {
@@ -152,15 +114,15 @@
                 top: calc(50% - 16px); 
             }
 
-            &::after {
-                content: '<';
+            &::before {
+                content: $lb_ui-btn-prev_content;
             }
         }
 
         &-next {
-            @if $lightbox-ui-navigation-position == 'fixed' {
+            @if $lb_ui-btn-next_position == 'fixed' {
                 position: fixed;
-                right: 16px;
+                right: #{$lb_padding / 2 - 16px};
                 top: calc(50% - 16px);
             } 
             @else {
@@ -169,16 +131,16 @@
                 top: calc(50% - 16px); 
             }
 
-            &::after {
-                content: '>';
+            &::before {
+                content: $lb_ui-btn-next_content;
             }
         }
 
         &-close {
-            @if $lightbox-ui-close-position == 'fixed' {
+            @if $lb_ui-btn-close_position == 'fixed' {
                 position: fixed;
-                right: 16px;
-                top: 16px;
+                right: #{$lb_padding / 2 - 16px};
+                top: #{$lb_padding / 2 - 16px};
             }
             @else {
                 position: absolute;
@@ -186,13 +148,13 @@
                 top: -48px;
             }
 
-            &::after {
-                content: 'x';
+            &::before {
+                content: $lb_ui-btn-close_content;
             }
         }
 
         &:hover {
-            color:#dadada;
+            color: $lb_ui-btn_color_hover;
         }
     }
 
