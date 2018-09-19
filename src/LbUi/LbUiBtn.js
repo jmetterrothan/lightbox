@@ -5,8 +5,6 @@ class LbUiBtn extends LbUiObject {
         super.init('button');
         this.$root.classList.add('ui_btn');
     }
-
-    update() { }
 }
 
 export class LbUiCloseBtn extends LbUiBtn {

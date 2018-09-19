@@ -14,6 +14,8 @@ class LbUiObject {
         this.$root.classList.add(...classList);
     }
 
+    update() { }
+    
     set disabled(bool) {
         if (bool === true) {
             this.$root.classList.add('disabled');
