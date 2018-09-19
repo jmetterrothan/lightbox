@@ -1,9 +1,9 @@
 import LbUiObject from './LbUiObject';
 
 class LbUiProgressBar extends LbUiObject {
-    constructor(lightbox, color = 'blue') {
+    constructor(lightbox, type = '') {
         super(lightbox);
-        this.color = color;
+        this.type = type;
 
         this.value = 0;
         this.$inner = null;
@@ -11,7 +11,11 @@ class LbUiProgressBar extends LbUiObject {
 
     init($parent = null) {
         super.init('div', $parent);
-        this.$root.classList.add('ui_progress', 'progress', `progress_${this.color}`);
+        this.$root.classList.add('ui_progress', 'progress');
+
+        if (this.type !== '') {
+            this.$root.classList.add(`progress_${this.type}`);
+        }
 
         this.$inner = document.createElement('div');
         this.$inner.classList.add('progress__inner');

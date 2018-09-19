@@ -12,7 +12,7 @@ class LbImageElement extends LbElement {
         this.width = parseInt(width, 10);
         this.height = parseInt(height, 10);
         
-        this.progressBar = new LbUiProgressBar(lightbox, 'red');
+        this.progressBar = new LbUiProgressBar(lightbox, 'element');
     }
 
     load() {

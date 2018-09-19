@@ -15,13 +15,13 @@
             transition: width linear 0.25s;
         }
 
-        &_blue {
+        &_element {
             .progress__inner {
                 background: #4799B7;
             }
         }
 
-        &_red {
+        &_timer {
             .progress__inner {
                 background: #E83338;
             }
