@@ -20,7 +20,6 @@ class Lightbox {
         this.options = objectAssignDeep.noMutate(Lightbox.DEFAULT_CONFIG, options);
 
         this.elements = [];
-        // this.thumbnails = [];
         this.count = 0;
         this.fullscreen = false;
 
@@ -57,9 +56,7 @@ class Lightbox {
         this.$container.classList.add('lightbox__container');
         this.$root.appendChild(this.$container);
 
-        // this.$uiThumbnails = document.createElement('div');
-        // this.$uiThumbnails.classList.add('ui-thumbnails');
-        // this.$ui.appendChild(this.$uiThumbnails);
+        this.ui.init();
 
         this.$root.addEventListener('click', (e) => {
             if (e.target === this.$root && this.options.closeOnBlur) {
@@ -159,7 +156,7 @@ class Lightbox {
         document.onwebkitfullscreenchange = fullscreenChanged;
         document.onmsfullscreenchange = fullscreenChanged;
 
-        this.ui.init();
+        
 
         this.$parent.appendChild(this.$root);
     }
