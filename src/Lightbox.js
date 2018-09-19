@@ -96,6 +96,24 @@ class Lightbox {
             }
         });
 
+        window.addEventListener('wheel', (e) => {
+            if (this.active) {
+                if (e.deltaY > 0) {   
+                    e.preventDefault();
+
+                    if (this.options.scrollNavigation) {
+                        this.next();
+                    }
+                } else if(e.deltaY < 0) {
+                    e.preventDefault();
+
+                    if (this.options.scrollNavigation) {
+                        this.prev();
+                    }
+                }
+            }
+        });
+
         this.ui.init();
 
         this.$parent.appendChild(this.$root);
@@ -365,6 +383,7 @@ Lightbox.DEFAULT_CONFIG = {
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,
+    scrollNavigation: true,
     enableCloseBtn: true,
     enableNavigationBtn: true,
     enableBullelist: true,
