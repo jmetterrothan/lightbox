@@ -27,6 +27,10 @@
         position: relative;
     }
 
+    &__content {
+        overflow: hidden;
+    }
+
     &__ui {
         position: absolute;
         top: 0;

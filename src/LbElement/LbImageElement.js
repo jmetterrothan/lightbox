@@ -1,3 +1,5 @@
+import animejs from 'animejs';
+
 import LbElement from './LbElement';
 import LbUiProgressBar from '../LbUi/LbUiProgressBar';
 
@@ -11,6 +13,7 @@ class LbImageElement extends LbElement {
         this.alt = alt;
         this.width = parseInt(width, 10);
         this.height = parseInt(height, 10);
+        this.$content = null;
         
         this.progressBar = new LbUiProgressBar(lightbox, 'element');
     }
@@ -51,10 +54,52 @@ class LbImageElement extends LbElement {
         }).finally(() => {       
             this.loading = false;
             this.loaded = true;
+            this.$content = img;
 
             setTimeout(() => {
                 this.progressBar.active = false;
             }, 650);
+        });
+    }
+
+    show(direction = -1) {
+        return new Promise((resolve, reject) => {
+            if (!(this.$content instanceof Element)) {
+                reject();
+            }
+
+            let tx = 0;
+            let ty = 0;
+            let s = 1;
+            let d = 500;
+            let o = 0.25;
+
+            if (direction === 0) {
+                tx = -25;
+            } else if (direction === 1) {
+                tx = 25;
+            } else {
+                ty = -5;
+                s = 0.75;
+                d = 300;
+                o = 0;
+            }
+
+            this.$content.style.transform = `translateX(${tx}%) translateY(${ty}%) scale(${s})`;
+            this.$content.style.opacity = o;
+
+            const animation = animejs({
+                targets: this.$content,
+                opacity: 1,
+                translateX: 0,
+                translateY: 0,
+                scale : 1,
+                delay: 0,
+                duration: d,
+                easing: 'easeInSine',
+            });
+
+            animation.complete = () => resolve();
         });
     }
 }

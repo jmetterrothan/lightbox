@@ -3,6 +3,7 @@
 import "babel-polyfill";
 import "./Utility/classList.polyfill.min";
 
+import animejs from 'animejs';
 import Hammer from 'hammerjs';
 
 import uniqid from 'uniqid';
@@ -193,8 +194,7 @@ class Lightbox {
         if (data.trigger instanceof Element) {
             data.trigger.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.load(element.key);
-                this.open();
+                this.show(element.key);
             });
         }
 
@@ -237,41 +237,80 @@ class Lightbox {
         this.count = this.elements.length;
     }
 
-    show(j) {
-        this.load(j);
-
+    show(j, direction = -1) {
         if (!this.active) {
-            this.open();
+            this.open().then(() => this.load(j, direction));
+        } else {
+            this.load(j, direction);
         }
     }
 
     open() {
-        this.active = true;
+        return new Promise((resolve, reject) => {
+            if (this.active) {
+                reject();
+            }
 
-        if (this.options.disableScroll) {
-            utility.disableScroll();
-        }
+            if (this.options.disableScroll) {
+                utility.disableScroll();
+            }
+
+            this.active = true;
+            this.$root.style.opacity = '0';
+            this.$container.style.visibility = 'visible';
+
+            const animation = animejs({
+                targets: this.$root,
+                opacity: 1,
+                delay: 0,
+                duration: 350,
+                easing: 'easeInQuad',
+            });
+
+            animation.complete = () => resolve();
+        });
     }
 
     close() {
-        this.active = false;
+        return new Promise((resolve, reject) => {
+            if (!this.active) {
+                reject();
+            }
 
-        if (this.fullscreen === true) {
-            this.disableFullscreen();
-        }
+            if (this.timer !== null) {
+                clearTimeout(this.timer);
+            }
 
-        if (this.timer !== null) {
-            clearTimeout(this.timer);
-        }
+            this.$root.style.opacity = '1';
+            this.$container.style.visibility = 'hidden';
 
-        if (this.currentIndex !== -1) {
-            this.elements[this.currentIndex].active =  false;
-            this.currentIndex = -1;
-        }
+            const animation = animejs({
+                targets: this.$root,
+                opacity: 0,
+                delay: 0,
+                duration: 250,
+                easing: 'easeOutQuad',
+            });
 
-        if (this.options.disableScroll) {
-            utility.enableScroll();
-        }
+            animation.complete = () => {
+                if (this.fullscreen === true) {
+                    this.disableFullscreen();
+                }
+    
+                if (this.options.disableScroll) {
+                    utility.enableScroll();
+                }
+
+                this.active = false;
+
+                if (this.currentIndex !== -1) {
+                    this.elements[this.currentIndex].active =  false;
+                    this.currentIndex = -1;
+                }
+
+                resolve();
+            };
+        });
     }
 
     toggle() {
@@ -316,7 +355,7 @@ class Lightbox {
         return index;
     }
 
-    load (j) {
+    load (j, direction) {
         // we got the index, now we can get the correct element
         const index = this.getIndex(j);
 
@@ -350,9 +389,11 @@ class Lightbox {
                 this.failed = element.failed;
             }
 
-            if (this.autoplay) {
-                this.start();
-            }
+            element.show(direction).then(() => {
+                if (this.autoplay) {
+                    this.start();
+                }
+            });
 
             // slight delay to account for the image rendering
             this.ui.update();
@@ -360,15 +401,15 @@ class Lightbox {
     }
 
     prev() {
-        this.load(this.currentIndex - 1);
+        this.show(this.currentIndex - 1, 0);
     }
 
     next() {
-        this.load(this.currentIndex + 1);
+        this.show(this.currentIndex + 1, 1);
     }
 
     random() {
-        this.load(Math.floor(Math.random() * this.count));
+        this.show(Math.floor(Math.random() * this.count));
     }
 
     keyExists(k) {
@@ -403,7 +444,7 @@ class Lightbox {
         if (this.currentIndex < this.count - 1) {
             this.next();
         } else {
-            this.load(0);
+            this.load(0, 1);
         }
     }
 
@@ -498,8 +539,8 @@ Lightbox.DEFAULT_CONFIG = {
     enablePagination: true,
     enableThumbnails: true,
     enableTitle: true,
-    enableProgressBar: false,
-    allowFullscreen: false,
+    enableProgressBar: true,
+    allowFullscreen: true,
 };
 
 export default Lightbox;
