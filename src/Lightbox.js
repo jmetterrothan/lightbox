@@ -32,6 +32,9 @@ class Lightbox {
         this.$container = null;
 
         this.ui = new LbUi(this);
+
+        this.timer = null;
+        this.autoplay = this.options.autoplay === true;
     }
 
     createElement(data) {
@@ -156,8 +159,6 @@ class Lightbox {
         document.onwebkitfullscreenchange = fullscreenChanged;
         document.onmsfullscreenchange = fullscreenChanged;
 
-        
-
         this.$parent.appendChild(this.$root);
     }
 
@@ -259,6 +260,10 @@ class Lightbox {
             this.disableFullscreen();
         }
 
+        if (this.timer !== null) {
+            clearTimeout(this.timer);
+        }
+
         if (this.currentIndex !== -1) {
             this.elements[this.currentIndex].active =  false;
             this.currentIndex = -1;
@@ -345,6 +350,10 @@ class Lightbox {
                 this.failed = element.failed;
             }
 
+            if (this.autoplay) {
+                this.start();
+            }
+
             // slight delay to account for the image rendering
             this.ui.update();
         });
@@ -388,6 +397,40 @@ class Lightbox {
         } else {
             return -1;
         }
+    }
+
+    doTimerLoop() {
+        if (this.currentIndex < this.count - 1) {
+            this.next();
+        } else {
+            this.load(0);
+        }
+    }
+
+    start() {
+        if (this.timer !== null) {
+            this.clear();
+        }
+    
+        const delay = parseInt(this.options.delay, 10);
+        this.timer = setTimeout(this.doTimerLoop.bind(this), delay);
+    }
+
+    clear() {
+        clearTimeout(this.timer);
+        this.timer = null;
+    }
+
+    toggleAutoplay() {
+        if (this.timer === null) {
+            this.autoplay = true;
+            this.start();
+        } else {
+            this.autoplay = false;
+            this.clear();
+        }
+
+        this.ui.options.autoplayBtn.update();
     }
 
     get failed() {
@@ -441,8 +484,8 @@ Lightbox.DEFAULT_CONFIG = {
     uid: uniqid(),
     appendTo: 'body',
     disableScroll: true,
-    autoStart: true,
-    delay: 2500,
+    autoplay: false,
+    delay: 5000,
     rewind: true,
     closeOnBlur: true,
     closeOnEscape: true,
@@ -456,7 +499,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableThumbnails: true,
     enableTitle: true,
     enableProgressBar: true,
-    allowFullscreen: true,
+    allowFullscreen: false,
 };
 
 export default Lightbox;
