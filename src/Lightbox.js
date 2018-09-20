@@ -498,7 +498,7 @@ Lightbox.DEFAULT_CONFIG = {
     enablePagination: true,
     enableThumbnails: true,
     enableTitle: true,
-    enableProgressBar: true,
+    enableProgressBar: false,
     allowFullscreen: false,
 };
 
