@@ -36,24 +36,26 @@
         display: block;
         bottom: $lb_vertical-padding;
         left: 0;
-        z-index: 50;
-        width: 100%;
+        width: calc(100vw - #{$lb_horizontal-padding * 2} - 17px);
         height: 148px;
-        padding: 32px 16px 16px 16px;
+        padding: 32px 0 16px 0;
+        margin: 0 $lb_horizontal-padding 0 $lb_horizontal-padding;
         box-sizing: border-box;
+        overflow: hidden;
 
         ul {
-            pointer-events: none; 
+            position: absolute;
+            top: 32px;
+            left: 0;
             width: 100%;
+            height: 100px;
             display: flex;
             justify-content: flex-start;
             align-items: center;
+            flex-wrap: nowrap;
             margin: 0;
             padding: 0;
             list-style-type: none;
-            transform: translateY(20%);
-            opacity: 0;
-            transition: all ease .5s;
 
             li {
                 position: relative;
@@ -64,8 +66,10 @@
                 box-sizing: border-box;
                 border-radius: 8px;
                 overflow: hidden;
-                border: 3px solid transparent;
-                margin-right: 16px;
+                margin-right: 16px; 
+                transform: translateY(20%);
+                opacity: 0;
+                transition: all ease .5s;
                 
                 &::after {
                     content: '';
@@ -75,7 +79,7 @@
                     left: 0;
                     width: 100%;
                     height: 100%;
-                    background: #252525;
+                    background: #101010;
                     z-index: -1;
                 }
 
@@ -84,19 +88,18 @@
                     height: 100%;
                     object-fit: cover;
                     object-position: center;
-                    opacity: .65;
+                    opacity: .35;
                 }
 
                 &:hover:not(.active) {
                     img {
                         opacity: 1;
-                        transition: opacity ease .1s;
+                        transition: opacity ease .25s;
                     } 
                 }
      
                 &.active {
-                    border-color: #dadada;
-                    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .4);
+                    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .2);
 
                     img {
                         opacity: 1;
@@ -105,10 +108,9 @@
             }
         }
 
-        @media screen and (min-width: 1024px) {
-            &:hover {
-                ul {
-                    pointer-events: initial;
+        &:hover {
+            ul {
+                li {
                     transform: translateY(0);
                     opacity: 1;
                     transition: all ease .5s .25s;

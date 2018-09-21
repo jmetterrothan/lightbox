@@ -48,7 +48,7 @@ class LbUiThumbnails extends LbUiObject {
         if ($current) $current.classList.add('active');
         if ($prev) $prev.classList.remove('active');
 
-        this.disabled =  this.lightbox.loading || this.lightbox.failed;
+        // this.disabled =  this.lightbox.loading || this.lightbox.failed;
     }
 }
 
