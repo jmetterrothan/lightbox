@@ -31,7 +31,90 @@
 
 .lightbox .ui {
     &_thumbnails {
-        //  ...
+        pointer-events: initial; 
+        position: fixed;
+        display: block;
+        bottom: $lb_vertical-padding;
+        left: 0;
+        z-index: 50;
+        width: 100%;
+        height: 148px;
+        padding: 32px 16px 16px 16px;
+        box-sizing: border-box;
+
+        ul {
+            pointer-events: none; 
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            transform: translateY(20%);
+            opacity: 0;
+            transition: all ease .5s;
+
+            li {
+                position: relative;
+                flex-shrink: 0;
+                width: 100px;
+                height: 100px;
+                cursor:pointer;
+                box-sizing: border-box;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 4px solid transparent;
+                margin-right: 19px;
+                
+                &::after {
+                    content: '';
+                    display: block;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: #252525;
+                    z-index: -1;
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    opacity: .65;
+                }
+
+                &:hover:not(.active) {
+                    img {
+                        opacity: 1;
+                        transition: opacity ease .1s;
+                    } 
+                }
+     
+                &.active {
+                    border-color: #dadada;
+                    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .4);
+
+                    img {
+                        opacity: 1;
+                    }
+                }
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            &:hover {
+                ul {
+                    pointer-events: initial;
+                    transform: translateY(0);
+                    opacity: 1;
+                    transition: all ease .5s .25s;
+                }
+            }
+        }
     }
 
     &_progress {

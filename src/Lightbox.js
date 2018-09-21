@@ -25,7 +25,7 @@ class Lightbox {
         this.fullscreen = false;
 
         this._currentIndex = -1;
-        this._previousIndex = -1;
+        this.previousIndex = -1;
         this._currentLoadingIndex = -1;
         
         this.$parent = null;
@@ -199,6 +199,7 @@ class Lightbox {
         }
 
         this.ui.bulletlist.add(element);
+        this.ui.thumbnailNav.add(element);
 
         this.elements.push(element);
         this.count = this.elements.length;
@@ -219,6 +220,7 @@ class Lightbox {
         }
     }
 
+    /*
     remove(stuff) {
         if (typeof stuff === 'string') {
             this.removeByKey(stuff);
@@ -236,6 +238,7 @@ class Lightbox {
         this.elements.splice(i, 1);
         this.count = this.elements.length;
     }
+    */
 
     show(j, direction = -1) {
         if (!this.active) {
@@ -504,7 +507,7 @@ class Lightbox {
     }
 
     set currentIndex(index) {
-        this._previousIndex = this._currentIndex;
+        this.previousIndex = this._currentIndex;
         this._currentIndex = index;
     }
 
