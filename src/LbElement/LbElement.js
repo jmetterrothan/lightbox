@@ -26,7 +26,7 @@ class LbElement {
     replaceContent($node) {
         const $content = this.$root.querySelector('.lightbox__content');
         if ($content) {
-            $content.remove();
+            this.$root.removeChild($content);
         }
         this.$root.appendChild($node);
     }
