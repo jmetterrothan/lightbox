@@ -72,7 +72,7 @@ class LbImageElement extends LbElement {
             let ty = 0;
             let s = 1;
             let d = 500;
-            let o = 0.25;
+            let o = 0;
 
             if (direction === 0) {
                 tx = -25;
@@ -82,7 +82,6 @@ class LbImageElement extends LbElement {
                 ty = -5;
                 s = 0.75;
                 d = 300;
-                o = 0;
             }
 
             this.$content.style.transform = `translateX(${tx}%) translateY(${ty}%) scale(${s})`;
