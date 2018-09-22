@@ -199,7 +199,7 @@ class Lightbox {
         }
 
         this.ui.bulletlist.add(element);
-        this.ui.thumbnailNav.add(element);
+        // this.ui.thumbnailNav.add(element);
 
         this.elements.push(element);
         this.count = this.elements.length;
@@ -540,7 +540,7 @@ Lightbox.DEFAULT_CONFIG = {
     enableAutoplayBtn: true,
     enableBulletlist: true,
     enablePagination: true,
-    enableThumbnails: true,
+    // enableThumbnails: true,
     enableTitle: true,
     enableProgressBar: true,
     allowFullscreen: true,

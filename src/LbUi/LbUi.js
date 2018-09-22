@@ -12,7 +12,7 @@ class LbUi {
 
         this.bulletlist = new LbUiBulletlist(lightbox);
         this.pagination = new LbUiPagination(lightbox);
-        this.thumbnailNav = new LbUiThumbnails(lightbox);
+        // this.thumbnailNav = new LbUiThumbnails(lightbox);
 
         this.prevBtn = new LbUiPrevBtn(lightbox);
         this.nextBtn = new LbUiNextBtn(lightbox);
@@ -42,8 +42,8 @@ class LbUi {
         this.pagination.init();
         this.pagination.active = this.lightbox.options.enablePagination;
 
-        this.thumbnailNav.init();
-        this.thumbnailNav.active = this.lightbox.options.enableThumbnails;
+        // this.thumbnailNav.init();
+        // this.thumbnailNav.active = this.lightbox.options.enableThumbnails;
 
         this.title.init();
         this.title.active = this.lightbox.options.enableTitle;
@@ -72,7 +72,7 @@ class LbUi {
         this.nextBtn.update();
         this.bulletlist.update();
         this.pagination.update();
-        this.thumbnailNav.update();
+        // this.thumbnailNav.update();
         this.title.update();
         this.options.update();
     }
