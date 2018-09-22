@@ -3,25 +3,28 @@
     text-align: center;
 
     &_loading {
-        color: #bdbdbd;
-        font-size: 0.9em;
+        color: $lb_loading-message_color;
+        font-size: $lb_loading-message_font-size;
+        font-weight: $lb_loading-message_font-weight;
     }
 
     &_error {
         h4 {
-            font-size: 1.05em;
+            font-size: $lb_error-message-title_font-size;
             line-height: 2em;
-            color: #f31c1c;
-            font-weight: 600;
+            color: $lb_error-message-title_color;
+            font-weight: $lb_error-message-title_font-weight;
             margin: 0;
         }
+
         p {
-            font-size: 0.9em;
+            font-size: $lb_error-message_font-size;
             line-height: 1.5em;
-            color: #bdbdbd;
-            font-weight: 300;
+            color: $lb_error-message_color;
+            font-weight: $lb_error-message_font-weight;
             margin: 0;
         }
+
         button {
             margin-top: 1.5em;
         }

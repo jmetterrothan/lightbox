@@ -10,6 +10,7 @@ class LbElement {
         this.key = uniqid();
         this.loaded = false;
         this.loading = false;
+        this.failed = false;
 
         this.$root =  null;
         this.$progress = null;
@@ -23,13 +24,16 @@ class LbElement {
     }
 
     replaceContent($node) {
-        this.$root.innerHTML = '';
+        const $content = this.$root.querySelector('.lightbox__content');
+        if ($content) {
+            this.$root.removeChild($content);
+        }
         this.$root.appendChild($node);
     }
 
     showErrorState(message) {
         const $error = document.createElement('div');
-        $error.classList.add('message', 'message_error');
+        $error.classList.add('lightbox__content', 'message', 'message_error');
 
         const $h4 = document.createElement('h4');
         $error.appendChild($h4);
@@ -51,7 +55,7 @@ class LbElement {
     showLoadingState() {
         // loading message state
         const $loading = document.createElement('div');
-        $loading.classList.add('message', 'message_loading');
+        $loading.classList.add('lightbox__content', 'message', 'message_loading');
 
         const $progress = document.createElement('span');
         $progress.textContent = '...';

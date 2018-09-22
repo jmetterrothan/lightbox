@@ -1,17 +1,25 @@
-import { LbCloseBtn, LbPrevBtn, LbNextBtn } from './LbUiBtn';
-import LbBulletlist from './LbUiBulletlist';
+import { LbUiPrevBtn, LbUiNextBtn } from './LbUiBtn';
+import LbUiBulletlist from './LbUiBulletlist';
+import LbUiPagination from './LbUiPagination';
+import LbUiTitle from './LbUiTitle';
+import LbUiThumbnails from './LbUiThumbnails';
+import LbUiOptions from './LbUiOptions';
 
 class LbUi {
     constructor(lightbox) {
         this.lightbox = lightbox;
         this.$root = null;
 
-        this.bulletlist = new LbBulletlist(lightbox);
-        this.thumbnails = null;
+        this.bulletlist = new LbUiBulletlist(lightbox);
+        this.pagination = new LbUiPagination(lightbox);
+        // this.thumbnailNav = new LbUiThumbnails(lightbox);
 
-        this.closeBtn = new LbCloseBtn(lightbox);
-        this.prevBtn = new LbPrevBtn(lightbox);
-        this.nextBtn = new LbNextBtn(lightbox);
+        this.prevBtn = new LbUiPrevBtn(lightbox);
+        this.nextBtn = new LbUiNextBtn(lightbox);
+        this.title = new LbUiTitle(lightbox);
+        this.options = new LbUiOptions(lightbox);
+
+        this.$progress = null;
     }
 
     init() {
@@ -19,8 +27,8 @@ class LbUi {
         this.$root.classList.add('lightbox__ui');
         this.lightbox.$container.appendChild(this.$root);
 
-        this.closeBtn.init();
-        this.closeBtn.active = this.lightbox.options.enableCloseBtn;
+        this.options.init();
+        this.options.active = true;
 
         this.prevBtn.init();
         this.prevBtn.active = this.lightbox.options.enableNavigationBtn;
@@ -29,7 +37,16 @@ class LbUi {
         this.nextBtn.active = this.lightbox.options.enableNavigationBtn;
 
         this.bulletlist.init();
-        this.bulletlist.active = this.lightbox.options.enableBullelist;
+        this.bulletlist.active = this.lightbox.options.enableBulletlist;
+
+        this.pagination.init();
+        this.pagination.active = this.lightbox.options.enablePagination;
+
+        // this.thumbnailNav.init();
+        // this.thumbnailNav.active = this.lightbox.options.enableThumbnails;
+
+        this.title.init();
+        this.title.active = this.lightbox.options.enableTitle;
 
         this.active = true;
     }
@@ -48,6 +65,16 @@ class LbUi {
 
     toggle() {
         this.active = !this.active;
+    }
+
+    update() {
+        this.prevBtn.update();
+        this.nextBtn.update();
+        this.bulletlist.update();
+        this.pagination.update();
+        // this.thumbnailNav.update();
+        this.title.update();
+        this.options.update();
     }
 }
 

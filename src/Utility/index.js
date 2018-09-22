@@ -1,4 +1,4 @@
-const keys = {37: false, 38: false, 39: true, 40: true};
+const keys = { 37: true, 38: true, 39: true, 40: true };
 
 const preventDefault = (e) => {
     e = e || window.event;
@@ -37,7 +37,47 @@ const enableScroll = () => {
     document.onkeydown = null;  
 };
 
+const openFullscreen = ($elem) => {
+    if ($elem.requestFullscreen) {
+        $elem.requestFullscreen();
+    } else if ($elem.mozRequestFullScreen) { /* Firefox */
+        $elem.mozRequestFullScreen();
+    } else if ($elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        $elem.webkitRequestFullscreen();
+    } else if ($elem.msRequestFullscreen) { /* IE/Edge */
+        $elem.msRequestFullscreen();
+    }
+};
+
+const closeFullscreen = () => {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { /* Firefox */
+        document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { /* IE/Edge */
+        document.msExitFullscreen();
+    }
+};
+
+const getFullscreenElement = () => {
+    if (document.webkitFullscreenElement) {
+        return document.webkitFullscreenElement;
+    } else if (document.mozFullScreenElement) {
+        return document.mozFullScreenElement;
+    } else if (document.msFullscreenElement) {
+        return document.msFullscreenElement;
+    } else if (document.fullscreenElement) {
+        return document.fullscreenElement;   
+    }
+    return null;
+}
+
 export default {
     disableScroll,
     enableScroll,
+    openFullscreen,
+    closeFullscreen,
+    getFullscreenElement,
 };

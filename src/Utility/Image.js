@@ -4,7 +4,7 @@ Image.prototype.load = function (src, progress = null) {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', src, true);
-        xhr.responseType = 'arraybuffer';
+        xhr.responseType = 'blob';
 
         xhr.onloadstart = () => {
             this.loadingProgress = 0;
@@ -25,10 +25,11 @@ Image.prototype.load = function (src, progress = null) {
         };
 
         xhr.onload = () => {
-            const blob = new Blob([xhr.response]);
-            this.src = window.URL.createObjectURL(blob);
+            this.onload = () => {
+                resolve();
+            };
 
-            resolve();
+            this.src = window.URL.createObjectURL(xhr.response);
         };
 
         xhr.onerror = () => reject(new Error('Could not find image...'));
