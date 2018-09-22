@@ -2,7 +2,7 @@ import { LbUiPrevBtn, LbUiNextBtn } from './LbUiBtn';
 import LbUiBulletlist from './LbUiBulletlist';
 import LbUiPagination from './LbUiPagination';
 import LbUiTitle from './LbUiTitle';
-import LbUiThumbnails from './LbUiThumbnails';
+// import LbUiThumbnails from './LbUiThumbnails';
 import LbUiOptions from './LbUiOptions';
 
 class LbUi {
@@ -31,22 +31,22 @@ class LbUi {
         this.options.active = true;
 
         this.prevBtn.init();
-        this.prevBtn.active = this.lightbox.options.enableNavigationBtn;
+        this.prevBtn.active = this.lightbox.options.navigationBtnUI;
 
         this.nextBtn.init();
-        this.nextBtn.active = this.lightbox.options.enableNavigationBtn;
+        this.nextBtn.active = this.lightbox.options.navigationBtnUI;
 
         this.bulletlist.init();
-        this.bulletlist.active = this.lightbox.options.enableBulletlist;
+        this.bulletlist.active = this.lightbox.options.bulletlistUI;
 
         this.pagination.init();
-        this.pagination.active = this.lightbox.options.enablePagination;
+        this.pagination.active = this.lightbox.options.paginationUI;
 
         // this.thumbnailNav.init();
         // this.thumbnailNav.active = this.lightbox.options.enableThumbnails;
 
         this.title.init();
-        this.title.active = this.lightbox.options.enableTitle;
+        this.title.active = this.lightbox.options.titleUI;
 
         this.active = true;
     }

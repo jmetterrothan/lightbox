@@ -15,13 +15,13 @@ class LbUiOptions extends LbUiObject {
         this.$root.classList.add('ui_options');
 
         this.fullscreenBtn.init(this.$root);
-        this.fullscreenBtn.active = this.lightbox.options.allowFullscreen;
+        this.fullscreenBtn.active = this.lightbox.options.fullscreen;
 
         this.closeBtn.init(this.$root);
-        this.closeBtn.active = this.lightbox.options.enableCloseBtn;
+        this.closeBtn.active = this.lightbox.options.closeBtnUI;
 
         this.autoplayBtn.init(this.$root);
-        this.autoplayBtn.active = this.lightbox.options.enableAutoplayBtn;
+        this.autoplayBtn.active = this.lightbox.options.autoplayBtnUI;
     }
 
     update() {

@@ -72,7 +72,7 @@ const getFullscreenElement = () => {
         return document.fullscreenElement;   
     }
     return null;
-}
+};
 
 export default {
     disableScroll,

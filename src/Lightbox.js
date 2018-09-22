@@ -254,7 +254,7 @@ class Lightbox {
                 reject();
             }
 
-            if (this.options.disableScroll) {
+            if (!this.options.documentScroll) {
                 utility.disableScroll();
             }
 
@@ -300,7 +300,7 @@ class Lightbox {
                     this.disableFullscreen();
                 }
     
-                if (this.options.disableScroll) {
+                if (!this.options.documentScroll) {
                     utility.enableScroll();
                 }
 
@@ -527,23 +527,23 @@ class Lightbox {
 Lightbox.DEFAULT_CONFIG = {
     uid: uniqid(),
     appendTo: 'body',
-    disableScroll: true,
     autoplay: false,
     delay: 5000,
     rewind: true,
+    documentScroll: false,
+    enableFullscreen: false,
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,
     scrollNavigation: true,
-    enableCloseBtn: true,
-    enableNavigationBtn: true,
-    enableAutoplayBtn: true,
-    enableBulletlist: true,
-    enablePagination: true,
+    closeBtnUI: true,
+    navigationBtnUI: true,
+    autoplayBtnUI: true,
+    bulletlistUI: true,
+    paginationUI: true,
     // enableThumbnails: true,
-    enableTitle: true,
-    enableProgressBar: true,
-    allowFullscreen: true,
+    titleUI: true,
+    progressBarUI: true,
 };
 
 export default Lightbox;

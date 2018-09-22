@@ -28,7 +28,7 @@ class LbImageElement extends LbElement {
         this.showLoadingState();
         
         this.progressBar.init(this.$root);
-        this.progressBar.active = this.lightbox.options.enableProgressBar;
+        this.progressBar.active = this.lightbox.options.progressBarUI;
 
         // image setup
         const img = new Image();
