@@ -20,7 +20,7 @@ const lightbox = new Lightbox({
 lightbox.init();
 ```
 
-## Create lightbox elements
+## How to add content
 
 ### Method  n°1 : HTML nodes
 The `data-lightbox` attribute is used to set up a lightbox element.
@@ -39,16 +39,18 @@ lightbox.fetch('*[data-lightbox]');
 
 
 ### Method  n°2 : JavaScript only
-In this case, the elements are fed directly to the lightbox object.
+In this case, the elements are added directly to the lightbox object without parsing the document.
 
 ``` javascript
 const json = [
-    { "type": "image", "alt": "My first picture", "src": "./img/picture1_2880w.jpg" },
+    { "type": "image", "alt": "My first picture", "src": "./img/picture1_2880w.jpg", "target": "#my-button" },
     { "type": "image", "alt": "My second picture", "src": "./img/picture2_2880w.jpg" },
 ];
 
 lightbox.add(json);
 ```
+
+> You can specify a `target` which is a selector or a node that will a have click listener bound to it like with the first method.
 
 ## Available lightbox options
 
