@@ -4,7 +4,7 @@ class LbUiBulletlist extends LbUiObject {
     constructor(lightbox) {
         super(lightbox);
 
-        this.list = [];
+        this.$list = [];
     }
 
     init() {
@@ -18,12 +18,12 @@ class LbUiBulletlist extends LbUiObject {
             this.update();
             this.lightbox.show(element);
         });
-        this.list.push($node);
+        this.$list.push($node);
         this.$root.appendChild($node);
     }
 
     update() {
-        this.list.forEach(($node, index) => {
+        this.$list.forEach(($node, index) => {
             if (index === this.lightbox.currentIndex) {
                 $node.classList.add('active');
             } else {

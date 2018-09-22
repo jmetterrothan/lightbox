@@ -3,6 +3,9 @@
 import "babel-polyfill";
 import "./Utility/classList.polyfill.min";
 
+import animejs from 'animejs';
+import Hammer from 'hammerjs';
+
 import uniqid from 'uniqid';
 import objectAssignDeep  from 'object-assign-deep';
 
@@ -18,11 +21,11 @@ class Lightbox {
         this.options = objectAssignDeep.noMutate(Lightbox.DEFAULT_CONFIG, options);
 
         this.elements = [];
-        // this.thumbnails = [];
         this.count = 0;
+        this.fullscreen = false;
 
         this._currentIndex = -1;
-        this._previousIndex = -1;
+        this.previousIndex = -1;
         this._currentLoadingIndex = -1;
         
         this.$parent = null;
@@ -30,6 +33,9 @@ class Lightbox {
         this.$container = null;
 
         this.ui = new LbUi(this);
+
+        this.timer = null;
+        this.autoplay = this.options.autoplay === true;
     }
 
     createElement(data) {
@@ -54,9 +60,7 @@ class Lightbox {
         this.$container.classList.add('lightbox__container');
         this.$root.appendChild(this.$container);
 
-        // this.$uiThumbnails = document.createElement('div');
-        // this.$uiThumbnails.classList.add('ui-thumbnails');
-        // this.$ui.appendChild(this.$uiThumbnails);
+        this.ui.init();
 
         this.$root.addEventListener('click', (e) => {
             if (e.target === this.$root && this.options.closeOnBlur) {
@@ -96,7 +100,65 @@ class Lightbox {
             }
         });
 
-        this.ui.init();
+        window.addEventListener('wheel', (e) => {
+            if (this.active) {
+                if (e.deltaY > 0) {   
+                    e.preventDefault();
+
+                    if (this.options.scrollNavigation) {
+                        this.next();
+                    }
+                } else if(e.deltaY < 0) {
+                    e.preventDefault();
+
+                    if (this.options.scrollNavigation) {
+                        this.prev();
+                    }
+                }
+            }
+        });
+
+        
+        
+        // Gestures
+        const h = new Hammer(this.$root);
+
+        h.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        h.get('tap').set({ taps: 2 });
+
+        // controls when swiping
+        h.on('swiperight', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.prev();
+            }
+        });
+
+        h.on('swipeleft', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.next();
+            }
+        });
+
+        // close on double tap
+        h.on('tap', (e) => {
+            if (e.pointerType !== 'mouse') {
+                this.close();
+            }
+        });
+
+
+        // Fullscreen change handlers
+        const fullscreenChanged = () => {
+            const test = utility.getFullscreenElement();
+
+            this.fullscreen = test !== null;
+            this.ui.options.fullscreenBtn.update();
+        };
+
+        document.onfullscreenchange = fullscreenChanged;
+        document.onmozfullscreenchange = fullscreenChanged;
+        document.onwebkitfullscreenchange = fullscreenChanged;
+        document.onmsfullscreenchange = fullscreenChanged;
 
         this.$parent.appendChild(this.$root);
     }
@@ -132,12 +194,12 @@ class Lightbox {
         if (data.trigger instanceof Element) {
             data.trigger.addEventListener('click', (e) => {
                 e.preventDefault();
-                this.load(element.key);
-                this.open();
+                this.show(element.key);
             });
         }
 
         this.ui.bulletlist.add(element);
+        // this.ui.thumbnailNav.add(element);
 
         this.elements.push(element);
         this.count = this.elements.length;
@@ -158,6 +220,7 @@ class Lightbox {
         }
     }
 
+    /*
     remove(stuff) {
         if (typeof stuff === 'string') {
             this.removeByKey(stuff);
@@ -175,34 +238,82 @@ class Lightbox {
         this.elements.splice(i, 1);
         this.count = this.elements.length;
     }
+    */
 
-    show(j) {
-        this.load(j);
-
+    show(j, direction = -1) {
         if (!this.active) {
-            this.open();
+            this.open().then(() => this.load(j, direction));
+        } else {
+            this.load(j, direction);
         }
     }
 
     open() {
-        this.active = true;
+        return new Promise((resolve, reject) => {
+            if (this.active) {
+                reject();
+            }
 
-        if (this.options.disableScroll) {
-            utility.disableScroll();
-        }
+            if (this.options.disableScroll) {
+                utility.disableScroll();
+            }
+
+            this.active = true;
+            this.$root.style.opacity = '0';
+            this.$container.style.visibility = 'visible';
+
+            const animation = animejs({
+                targets: this.$root,
+                opacity: 1,
+                delay: 0,
+                duration: 350,
+                easing: 'easeInQuad',
+            });
+
+            animation.complete = () => resolve();
+        });
     }
 
     close() {
-        this.active = false;
+        return new Promise((resolve, reject) => {
+            if (!this.active) {
+                reject();
+            }
 
-        if (this.currentIndex !== -1) {
-            this.elements[this.currentIndex].active =  false;
-            this.currentIndex = -1;
-        }
+            if (this.timer !== null) {
+                clearTimeout(this.timer);
+            }
 
-        if (this.options.disableScroll) {
-            utility.enableScroll();
-        }
+            this.$root.style.opacity = '1';
+            this.$container.style.visibility = 'hidden';
+
+            const animation = animejs({
+                targets: this.$root,
+                opacity: 0,
+                delay: 0,
+                duration: 250,
+                easing: 'easeOutQuad',
+            });
+
+            animation.complete = () => {
+                if (this.fullscreen === true) {
+                    this.disableFullscreen();
+                }
+    
+                if (this.options.disableScroll) {
+                    utility.enableScroll();
+                }
+
+                this.active = false;
+
+                if (this.currentIndex !== -1) {
+                    this.elements[this.currentIndex].active =  false;
+                    this.currentIndex = -1;
+                }
+
+                resolve();
+            };
+        });
     }
 
     toggle() {
@@ -211,6 +322,22 @@ class Lightbox {
         } else {
             this.open();
         }
+    }
+
+    toggleFullscreen() {
+        if (this.fullscreen === true) {
+            this.disableFullscreen();
+        } else {
+            this.enableFullscreen();
+        }
+    }
+
+    enableFullscreen() {
+        utility.openFullscreen(this.$root);
+    }
+
+    disableFullscreen() {
+        utility.closeFullscreen();
     }
 
     getCurrent() {
@@ -231,7 +358,7 @@ class Lightbox {
         return index;
     }
 
-    load (j) {
+    load (j, direction) {
         // we got the index, now we can get the correct element
         const index = this.getIndex(j);
 
@@ -265,21 +392,27 @@ class Lightbox {
                 this.failed = element.failed;
             }
 
+            element.show(direction).then(() => {
+                if (this.autoplay) {
+                    this.start();
+                }
+            });
+
             // slight delay to account for the image rendering
             this.ui.update();
         });
     }
 
     prev() {
-        this.load(this.currentIndex - 1);
+        this.show(this.currentIndex - 1, 0);
     }
 
     next() {
-        this.load(this.currentIndex + 1);
+        this.show(this.currentIndex + 1, 1);
     }
 
     random() {
-        this.load(Math.floor(Math.random() * this.count));
+        this.show(Math.floor(Math.random() * this.count));
     }
 
     keyExists(k) {
@@ -308,6 +441,40 @@ class Lightbox {
         } else {
             return -1;
         }
+    }
+
+    doTimerLoop() {
+        if (this.currentIndex < this.count - 1) {
+            this.next();
+        } else {
+            this.load(0, 1);
+        }
+    }
+
+    start() {
+        if (this.timer !== null) {
+            this.clear();
+        }
+    
+        const delay = parseInt(this.options.delay, 10);
+        this.timer = setTimeout(this.doTimerLoop.bind(this), delay);
+    }
+
+    clear() {
+        clearTimeout(this.timer);
+        this.timer = null;
+    }
+
+    toggleAutoplay() {
+        if (this.timer === null) {
+            this.autoplay = true;
+            this.start();
+        } else {
+            this.autoplay = false;
+            this.clear();
+        }
+
+        this.ui.options.autoplayBtn.update();
     }
 
     get failed() {
@@ -340,7 +507,7 @@ class Lightbox {
     }
 
     set currentIndex(index) {
-        this._previousIndex = this._currentIndex;
+        this.previousIndex = this._currentIndex;
         this._currentIndex = index;
     }
 
@@ -361,15 +528,22 @@ Lightbox.DEFAULT_CONFIG = {
     uid: uniqid(),
     appendTo: 'body',
     disableScroll: true,
+    autoplay: false,
+    delay: 5000,
     rewind: true,
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,
+    scrollNavigation: true,
     enableCloseBtn: true,
     enableNavigationBtn: true,
-    enableBullelist: true,
+    enableAutoplayBtn: true,
+    enableBulletlist: true,
     enablePagination: true,
+    // enableThumbnails: true,
     enableTitle: true,
+    enableProgressBar: true,
+    allowFullscreen: true,
 };
 
 export default Lightbox;
