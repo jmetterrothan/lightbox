@@ -18,7 +18,36 @@ const lightbox = new Lightbox({
 });
 
 lightbox.init();
+```
+
+## Create lightbox elements
+
+### Method  n°1 : HTML nodes
+The `data-lightbox` attribute is used to set up a lightbox element.
+
+``` html
+<figure data-lightbox='{ "type": "image", "alt": "A picture", "src": "./img/picture_2880w.jpg" }'>
+    <img src="./img/picture.jpg" alt="preview" />
+</figure>
+```
+
+You can specify any valid selector with the `fetch()` function to retrieve all the lightbox elements present in the document.
+
+``` javascript
 lightbox.fetch('*[data-lightbox]');
+```
+
+
+### Method  n°2 : JavaScript only
+In this case, the elements are fed directly to the lightbox object.
+
+``` javascript
+const json = [
+    { "type": "image", "alt": "My first picture", "src": "./img/picture1_2880w.jpg" },
+    { "type": "image", "alt": "My second picture", "src": "./img/picture2_2880w.jpg" },
+];
+
+lightbox.add(json);
 ```
 
 ## Available lightbox options
