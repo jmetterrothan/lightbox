@@ -22,7 +22,7 @@ lightbox.init();
 
 ## How to add content
 
-### Method  n°1 : HTML nodes
+#### Method  n°1 : HTML nodes
 The `data-lightbox` attribute is used to set up a lightbox element.
 
 ``` html
@@ -38,7 +38,7 @@ lightbox.fetch('*[data-lightbox]');
 ```
 
 
-### Method  n°2 : JavaScript only
+#### Method  n°2 : JavaScript only
 In this case, the elements are added directly to the lightbox object without parsing the document.
 
 ``` javascript
@@ -74,3 +74,81 @@ lightbox.add(json);
 | paginationUI | `boolean` | `true` | Display navigation information |
 | titleUI | `boolean` | `true` | Display the element's title |
 | progressBarUI | `boolean` | `true` | Show a progress bar when loading |
+
+## Available lightbox styling options
+
+You can overwrite any of the following rules :
+
+```sass
+// Default styling options
+
+$lb_horizontal-padding : 64px;
+$lb_vertical-padding : 48px;
+
+$lb_bgcolor : rgba(0, 0, 0, 0.985);
+$lb_font-size : 16px;
+$lb_font-family : Arial, sans-serif;
+
+$lb_ui-btn_font-family : 'dripicons-v2';
+$lb_ui-btn_font-weight : 400;
+$lb_ui-btn_color : #757575;
+$lb_ui-btn_color_hover : #dadada;
+
+$lb_ui-btn-prev_position : fixed; // fixed | absolute
+$lb_ui-btn-prev_content : '\55';
+$lb_ui-btn-prev_font-size : 1.5em;
+
+$lb_ui-btn-next_position : fixed; // fixed | absolute
+$lb_ui-btn-next_content : '\56';
+$lb_ui-btn-next_font-size : 1.5em;
+
+$lb_ui-options_position : fixed; // fixed | absolute
+
+$lb_ui-btn-close_content : '\39';
+$lb_ui-btn-close_font-size : 1.5em;
+$lb_ui-btn-close_order : 3;
+
+$lb_ui-btn-fullscreen_content_off : '\3e';
+$lb_ui-btn-fullscreen_content_on : '\34';
+$lb_ui-btn-fullscreen_font-size : 1.25em;
+$lb_ui-btn-fullscreen_order : 2;
+
+$lb_ui-btn-autoplay_content_off : '\e01a';
+$lb_ui-btn-autoplay_content_on : '\e019';
+$lb_ui-btn-autoplay_font-size : 1.25em;
+$lb_ui-btn-autoplay_order : 1;
+
+$lb_ui-bulletlist_position : fixed;  // fixed | absolute
+$lb_ui-bulletlist_size : 0.6em;
+$lb_ui-bulletlist_color : #505050;
+$lb_ui-bulletlist_color_active : #dadada;
+$lb_ui-bulletlist_color_hover : #dadada;
+
+$lb_ui-pagination_position : fixed; // fixed | absolute
+$lb_ui-pagination_font-size : .8em;
+$lb_ui-pagination_font-weight : 600;
+$lb_ui-pagination_color : #757575;
+
+$lb_ui-title_position : fixed; // fixed | absolute
+$lb_ui-title_font-size : .9em;
+$lb_ui-title_font-weight : 600;
+$lb_ui-title_color : #757575;
+
+$lb_loading-message_font-size : .8em;
+$lb_loading-message_font-weight : 600;
+$lb_loading-message_color : #757575;
+
+$lb_error-message-title_font-size : 1.05em;
+$lb_error-message-title_font-weight : 600;
+$lb_error-message-title_color : #bdbdbd;
+
+$lb_error-message_font-size : .9em;
+$lb_error-message_font-weight : 300;
+$lb_error-message_color : #757575;
+
+$lb_progress_size : 4px;
+$lb_progress_bgcolor : #505050;
+$lb_progress-inner_bgcolor : #4799B7;
+
+@import 'jmetterrothan-lightbox/src/assets/sass/lightbox';
+```
