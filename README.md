@@ -62,7 +62,7 @@ lightbox.add(json);
 | delay | `number` | `5000` | Autoplay delay in ms to wait before showing the next element |
 | rewind | `boolean` | `true` | Navigation loops through the lightbox elements |
 | documentScroll | `boolean` | `false` | Disable scroll when lightbox is opened |
-| fullscreen | `boolean` | `false` | Allow fullscreen mode |
+| fullscreen | `boolean` | `true` | Allow fullscreen mode |
 | closeOnBlur | `boolean` | `true` | Allow the lightbox to close when clicking on the background |
 | closeOnEscape | `boolean` | `true` | Allow the lightbox to close on pressing escape |
 | arrowKeyNavigation | `boolean` | `true` | Allow navigation with left/right arrow keys |
@@ -89,34 +89,34 @@ $lb_bgcolor : rgba(0, 0, 0, 0.985);
 $lb_font-size : 16px;
 $lb_font-family : Arial, sans-serif;
 
-$lb_ui-btn_font-family : 'dripicons-v2';
+$lb_ui-btn_font-family : 'Lightbox Icons';
 $lb_ui-btn_font-weight : 400;
 $lb_ui-btn_color : #757575;
 $lb_ui-btn_color_hover : #dadada;
 
 $lb_ui-btn-prev_position : fixed; // fixed | absolute
-$lb_ui-btn-prev_content : '\55';
-$lb_ui-btn-prev_font-size : 1.5em;
+$lb_ui-btn-prev_content : '\0041';
+$lb_ui-btn-prev_font-size : 1em;
 
 $lb_ui-btn-next_position : fixed; // fixed | absolute
-$lb_ui-btn-next_content : '\56';
-$lb_ui-btn-next_font-size : 1.5em;
+$lb_ui-btn-next_content : '\0042';
+$lb_ui-btn-next_font-size : 1em;
 
 $lb_ui-options_position : fixed; // fixed | absolute
 
-$lb_ui-btn-close_content : '\39';
-$lb_ui-btn-close_font-size : 1.5em;
-$lb_ui-btn-close_order : 3;
+$lb_ui-btn-autoplay_content_off : '\0047';
+$lb_ui-btn-autoplay_content_on : '\0046';
+$lb_ui-btn-autoplay_font-size : 1em;
+$lb_ui-btn-autoplay_order : 1;
 
-$lb_ui-btn-fullscreen_content_off : '\3e';
-$lb_ui-btn-fullscreen_content_on : '\34';
-$lb_ui-btn-fullscreen_font-size : 1.25em;
+$lb_ui-btn-fullscreen_content_off : '\0045';
+$lb_ui-btn-fullscreen_content_on : '\0044';
+$lb_ui-btn-fullscreen_font-size : 1em;
 $lb_ui-btn-fullscreen_order : 2;
 
-$lb_ui-btn-autoplay_content_off : '\e01a';
-$lb_ui-btn-autoplay_content_on : '\e019';
-$lb_ui-btn-autoplay_font-size : 1.25em;
-$lb_ui-btn-autoplay_order : 1;
+$lb_ui-btn-close_content : '\0043';
+$lb_ui-btn-close_font-size : 1em;
+$lb_ui-btn-close_order : 3;
 
 $lb_ui-bulletlist_position : fixed;  // fixed | absolute
 $lb_ui-bulletlist_size : 0.6em;
