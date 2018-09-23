@@ -95,7 +95,7 @@ class LbImageElement extends LbElement {
                 scale : 1,
                 delay: 0,
                 duration: d,
-                easing: 'easeInSine',
+                easing: 'easeOutQuad',
             });
 
             animation.complete = () => resolve();
