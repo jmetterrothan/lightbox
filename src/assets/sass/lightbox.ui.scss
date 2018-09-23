@@ -4,8 +4,8 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 4px;
-        background: #505050;
+        height: $lb_progress_size;
+        background: $lb_progress_bgcolor;
 
         &__inner {
             width: 0%;
@@ -17,13 +17,7 @@
 
         &_element {
             .progress__inner {
-                background: #4799B7;
-            }
-        }
-
-        &_timer {
-            .progress__inner {
-                background: #E83338;
+                background: $lb_progress-inner_bgcolor;
             }
         }
     }
@@ -133,7 +127,7 @@
         height: 32px;
         list-style-type: none;
 
-        @if $lb_ui-bulletlist_position == 'fixed' {
+        @if $lb_ui-bulletlist_position == fixed {
             width: calc(100vw - #{$lb_horizontal-padding} * 2 - 17px);
             position: fixed;
             left: $lb_horizontal-padding;
@@ -175,7 +169,7 @@
         color: $lb_ui-pagination_color;
         line-height: 32px;
 
-        @if $lb_ui-pagination_position == 'fixed' {
+        @if $lb_ui-pagination_position == fixed {
             position: fixed;
             left: $lb_horizontal-padding / 2;
             bottom: #{$lb_vertical-padding / 2 - 16px};
@@ -196,7 +190,7 @@
         font-weight: $lb_ui-title_font-weight;
         color: $lb_ui-title_color;
 
-        @if $lb_ui-title_position == 'fixed' {
+        @if $lb_ui-title_position == fixed {
             position: fixed;
             left: $lb_horizontal-padding / 2;
             top: #{$lb_vertical-padding / 2 - 16px};
@@ -228,7 +222,7 @@
         &-prev {
             font-size: $lb_ui-btn-prev_font-size;
 
-            @if $lb_ui-btn-prev_position == 'fixed' {
+            @if $lb_ui-btn-prev_position == fixed {
                 position: fixed;
                 left: #{$lb_horizontal-padding / 2 - 16px};
                 top: calc(50% - 16px);
@@ -247,7 +241,7 @@
         &-next {
             font-size: $lb_ui-btn-next_font-size;
 
-            @if $lb_ui-btn-next_position == 'fixed' {
+            @if $lb_ui-btn-next_position == fixed {
                 position: fixed;
                 right: #{$lb_horizontal-padding / 2 - 16px};
                 top: calc(50% - 16px);
@@ -317,7 +311,7 @@
             margin-left: 16px;
         }
 
-        @if $lb_ui-options_position == 'fixed' {
+        @if $lb_ui-options_position == fixed {
             position: fixed;
             right: #{$lb_horizontal-padding / 2 - 16px};
             top: #{$lb_vertical-padding / 2 - 16px};

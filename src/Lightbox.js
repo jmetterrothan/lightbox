@@ -26,7 +26,7 @@ class Lightbox {
 
         this._currentIndex = -1;
         this.previousIndex = -1;
-        this._currentLoadingIndex = -1;
+        this.currentLoadingIndex = -1;
         
         this.$parent = null;
         this.$root = null;
@@ -259,6 +259,7 @@ class Lightbox {
             }
 
             this.active = true;
+            this.animating = true;
             this.$root.style.opacity = '0';
             this.$container.style.visibility = 'visible';
 
@@ -270,7 +271,10 @@ class Lightbox {
                 easing: 'easeInQuad',
             });
 
-            animation.complete = () => resolve();
+            animation.complete = () => {
+                this.animating = false;
+                resolve();
+            };
         });
     }
 
@@ -284,6 +288,7 @@ class Lightbox {
                 clearTimeout(this.timer);
             }
 
+            this.animating = true;
             this.$root.style.opacity = '1';
             this.$container.style.visibility = 'hidden';
 
@@ -305,6 +310,7 @@ class Lightbox {
                 }
 
                 this.active = false;
+                this.animating = false;
 
                 if (this.currentIndex !== -1) {
                     this.elements[this.currentIndex].active =  false;
@@ -387,15 +393,18 @@ class Lightbox {
         this.ui.update();
 
         Promise.resolve(element.load()).finally(() => {
-            if (index === this._currentLoadingIndex) {
+            if (index === this.currentLoadingIndex) {
                 this.loading = false;
                 this.failed = element.failed;
             }
+
+            this.animating = true;
 
             element.show(direction).then(() => {
                 if (this.autoplay) {
                     this.start();
                 }
+                this.animating = false;
             });
 
             // slight delay to account for the image rendering
@@ -489,6 +498,18 @@ class Lightbox {
         }
     }
 
+    get animating() {
+        return this.$root.classList.contains('animating');
+    }
+
+    set animating(bool) {
+        if (bool === true) {
+            this.$root.classList.add('animating');
+        } else {
+            this.$root.classList.remove('animating');
+        }
+    }
+
     get loading() {
         return this.$root.classList.contains('loading');
     }
@@ -496,7 +517,7 @@ class Lightbox {
     set loading(bool) {
         if (bool === true) {
             this.$root.classList.add('loading');
-            this._currentLoadingIndex = this.currentIndex;
+            this.currentLoadingIndex = this.currentIndex;
         } else {
             this.$root.classList.remove('loading');
         }
@@ -531,7 +552,7 @@ Lightbox.DEFAULT_CONFIG = {
     delay: 5000,
     rewind: true,
     documentScroll: false,
-    enableFullscreen: false,
+    enableFullscreen: true,
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,

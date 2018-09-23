@@ -23,63 +23,69 @@ $lb_font-family : Arial, sans-serif !default;
 
 // ui buttons
 
-$lb_ui-btn_font-family : $lb_font-family !default;
+$lb_ui-btn_font-family : 'Lightbox Icons' !default;
 $lb_ui-btn_font-weight : 400 !default;
 $lb_ui-btn_color : #757575 !default;
 $lb_ui-btn_color_hover : #dadada !default;
 
-$lb_ui-btn-prev_position : 'fixed' !default;
-$lb_ui-btn-prev_content : '‹' !default;
-$lb_ui-btn-prev_font-size : 2em !default;
+$lb_ui-btn-prev_position : fixed !default;
+$lb_ui-btn-prev_content : '\0041' !default;
+$lb_ui-btn-prev_font-size : 1em !default;
 
-$lb_ui-btn-next_position : 'fixed' !default;
-$lb_ui-btn-next_content : '›' !default;
-$lb_ui-btn-next_font-size : 2em !default;
+$lb_ui-btn-next_position : fixed !default;
+$lb_ui-btn-next_content : '\0042' !default;
+$lb_ui-btn-next_font-size : 1em !default;
 
-$lb_ui-options_position : 'fixed' !default;
+$lb_ui-options_position : fixed !default;
 
-$lb_ui-btn-close_content : '✖' !default;
-$lb_ui-btn-close_font-size : 1.5em !default;
+$lb_ui-btn-close_content : '\0043' !default;
+$lb_ui-btn-close_font-size : 1em !default;
 $lb_ui-btn-close_order : 3 !default;
 
-$lb_ui-btn-fullscreen_content_off : '⤧' !default;
-$lb_ui-btn-fullscreen_content_on : '⤰' !default;
-$lb_ui-btn-fullscreen_font-size : 1.5em !default;
+$lb_ui-btn-fullscreen_content_off : '\0045' !default;
+$lb_ui-btn-fullscreen_content_on : '\0044' !default;
+$lb_ui-btn-fullscreen_font-size : 1em !default;
 $lb_ui-btn-fullscreen_order : 2 !default;
 
-$lb_ui-btn-autoplay_content_off : '▶' !default;
-$lb_ui-btn-autoplay_content_on : '❚❚' !default;
-$lb_ui-btn-autoplay_font-size : 1.5em !default;
+$lb_ui-btn-autoplay_content_off : '\0047' !default;
+$lb_ui-btn-autoplay_content_on : '\0046' !default;
+$lb_ui-btn-autoplay_font-size : 1em !default;
 $lb_ui-btn-autoplay_order : 1 !default;
 
 // ui misc
 
-$lb_ui-bulletlist_position : 'fixed' !default;
+$lb_ui-bulletlist_position : fixed !default;
 $lb_ui-bulletlist_size : 0.6em !default;
 $lb_ui-bulletlist_color : #505050 !default;
 $lb_ui-bulletlist_color_active : #dadada !default;
 $lb_ui-bulletlist_color_hover : #dadada !default;
 
-$lb_ui-pagination_position : 'fixed' !default;
+$lb_ui-pagination_position : fixed !default;
 $lb_ui-pagination_font-size : .8em !default;
 $lb_ui-pagination_font-weight : 600 !default;
 $lb_ui-pagination_color : #757575 !default;
 
-$lb_ui-title_position : 'fixed' !default;
+$lb_ui-title_position : fixed !default;
 $lb_ui-title_font-size : .9em !default;
 $lb_ui-title_font-weight : 600 !default;
 $lb_ui-title_color : #757575 !default;
 
 // messages
 
-$lb_loading-message_font-size : .8em;
-$lb_loading-message_font-weight : 600;
-$lb_loading-message_color : #757575;
+$lb_loading-message_font-size : .8em !default;
+$lb_loading-message_font-weight : 600 !default;
+$lb_loading-message_color : #757575 !default;
 
-$lb_error-message-title_font-size : 1.05em;
-$lb_error-message-title_font-weight : 600;
-$lb_error-message-title_color : #bdbdbd;
+$lb_error-message-title_font-size : 1.05em !default;
+$lb_error-message-title_font-weight : 600 !default;
+$lb_error-message-title_color : #bdbdbd !default;
 
-$lb_error-message_font-size : .9em;
-$lb_error-message_font-weight : 300;
-$lb_error-message_color : #757575;
+$lb_error-message_font-size : .9em !default;
+$lb_error-message_font-weight : 300 !default;
+$lb_error-message_color : #757575 !default;
+
+// loading bars
+
+$lb_progress_size : 4px !default;
+$lb_progress_bgcolor : #505050 !default;
+$lb_progress-inner_bgcolor : #4799B7 !default;
