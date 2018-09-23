@@ -71,7 +71,7 @@ class LbImageElement extends LbElement {
             let tx = 0;
             let ty = 0;
             let s = 0.9;
-            let d = 350;
+            let d = 500;
             let o = 0;
 
             if (direction === 0) {

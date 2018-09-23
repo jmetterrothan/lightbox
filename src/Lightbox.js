@@ -552,7 +552,7 @@ Lightbox.DEFAULT_CONFIG = {
     delay: 5000,
     rewind: true,
     documentScroll: false,
-    enableFullscreen: false,
+    enableFullscreen: true,
     closeOnBlur: true,
     closeOnEscape: true,
     arrowKeyNavigation: true,
