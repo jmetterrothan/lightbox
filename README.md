@@ -73,7 +73,6 @@ lightbox.add(json);
 | bulletlistUI | `boolean` | `true` | Display a bulletlist navigation |
 | paginationUI | `boolean` | `true` | Display navigation information |
 | titleUI | `boolean` | `true` | Display the element's title |
-| progressBarUI | `boolean` | `true` | Show a progress bar when loading |
 
 ## Available lightbox styling options
 
@@ -145,10 +144,6 @@ $lb_error-message-title_color : #bdbdbd;
 $lb_error-message_font-size : .9em;
 $lb_error-message_font-weight : 300;
 $lb_error-message_color : #757575;
-
-$lb_progress_size : 4px;
-$lb_progress_bgcolor : #505050;
-$lb_progress-inner_bgcolor : #4799B7;
 
 @import 'jmetterrothan-lightbox/src/assets/sass/lightbox';
 ```

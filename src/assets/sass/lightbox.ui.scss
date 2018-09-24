@@ -1,28 +1,3 @@
-.lightbox {
-    .progress {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: $lb_progress_size;
-        background: $lb_progress_bgcolor;
-
-        &__inner {
-            width: 0%;
-            display: block;
-            height: inherit;
-            background: #ffffff;
-            transition: width linear 0.25s;
-        }
-
-        &_element {
-            .progress__inner {
-                background: $lb_progress-inner_bgcolor;
-            }
-        }
-    }
-}
-
 .lightbox .ui {
     &_thumbnails {
         pointer-events: initial; 
@@ -108,13 +83,6 @@
                 }
             }
         }
-    }
-
-    &_progress {
-        position: fixed;
-        width: 100vw;
-        top: 0;
-        left: 0;
     }
 
     &_bulletlist {
