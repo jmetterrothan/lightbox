@@ -42,6 +42,8 @@ class Lightbox {
         switch(data.type) {
         case 'image':
             return new LbImageElement(this, data);
+        default:
+            throw new LbException("Unknown lightbox element type");
         }
     }
 
@@ -179,30 +181,38 @@ class Lightbox {
     }
 
     _addElement(data) {
-        const element = this.createElement(data);
-        element.init();
+        try {
+            const element = this.createElement(data);
+            element.init();
 
-        if (data.preload === true) {
-            element.load();
+            if (data.preload === true) {
+                element.load();
+            }
+
+            if (data.trigger === 'string') {
+                data.trigger = document.querySelector(data.trigger);
+            }
+
+            // listeners
+            if (data.trigger instanceof Element) {
+                data.trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.show(element.key);
+                });
+            }
+
+            this.ui.bulletlist.add(element);
+            // this.ui.thumbnailNav.add(element);
+
+            this.elements.push(element);
+            this.count = this.elements.length;   
+        } catch(e) {
+            if (e instanceof LbException) {
+                console.warn(e.message); // eslint-disable-line
+            } else {
+                throw e;
+            }
         }
-
-        if (data.trigger === 'string') {
-            data.trigger = document.querySelector(data.trigger);
-        }
-
-        // listeners
-        if (data.trigger instanceof Element) {
-            data.trigger.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.show(element.key);
-            });
-        }
-
-        this.ui.bulletlist.add(element);
-        // this.ui.thumbnailNav.add(element);
-
-        this.elements.push(element);
-        this.count = this.elements.length;
     }
 
     add(stuff) {
