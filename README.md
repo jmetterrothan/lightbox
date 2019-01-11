@@ -1,5 +1,5 @@
 # lightbox
-An easy-to-use and customizable lightbox. Live demo [here](http://projects.metter-rothan.fr/lightbox/)!
+An easy-to-use and customizable lightbox. Live demo [here](https://goo.gl/uoJTfQ)!
 
 ## Usage
 
